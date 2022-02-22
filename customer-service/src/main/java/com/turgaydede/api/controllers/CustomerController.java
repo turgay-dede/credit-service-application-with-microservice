@@ -2,7 +2,6 @@ package com.turgaydede.api.controllers;
 
 import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.entities.dtos.CustomerDto;
-import com.turgaydede.entities.dtos.CustomerUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +26,17 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CustomerDto> update(@RequestBody CustomerUpdateRequest customerUpdateRequest) {
-        return ResponseEntity.ok(customerService.update(customerUpdateRequest));
+    public ResponseEntity<CustomerDto> update(@RequestBody CustomerDto customerDto) {
+        return ResponseEntity.ok(customerService.update(customerDto));
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<List<CustomerDto>> getAll() {
         return ResponseEntity.ok(customerService.getAll());
+    }
+
+    @GetMapping("/get/customer/identity-number")
+    public ResponseEntity<CustomerDto> getByCustomerForIdentityNumber(@RequestParam String identityNumber) {
+        return ResponseEntity.ok(customerService.getByCustomerForIdentityNumber(identityNumber));
     }
 }

@@ -3,7 +3,6 @@ package com.turgaydede.business.concreates;
 import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.entities.Customer;
 import com.turgaydede.entities.dtos.CustomerDto;
-import com.turgaydede.entities.dtos.CustomerUpdateRequest;
 import com.turgaydede.exceptions.CustomerNotFoundException;
 import com.turgaydede.repositories.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -37,8 +36,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto update(CustomerUpdateRequest customerUpdateRequest) {
-        Customer customer = modelMapper.map(customerUpdateRequest, Customer.class);
+    public CustomerDto update(CustomerDto customerDto) {
+        Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
         return modelMapper.map(customer, CustomerDto.class);
     }

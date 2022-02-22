@@ -10,11 +10,13 @@
         <module name="customer-service" />
         <module name="credit-service" />
         <module name="service-registry" />
+        <module name="cloud-gateway" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cloud-gateway" options="-parameters" />
       <module name="credit-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />

@@ -12,6 +12,7 @@
         <module>customer-service</module>
         <module>credit-service</module>
         <module>service-registry</module>
+        <module>cloud-gateway</module>
     </modules>
 
     <properties>

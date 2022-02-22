@@ -13,5 +13,4 @@ public class Customer {
     private String identityNumber;
     private int monthlyIncome;
     private String phoneNumber;
-    private int creditScore;
 }

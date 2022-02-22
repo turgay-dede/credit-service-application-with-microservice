@@ -6,8 +6,11 @@ import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.CreditConsent;
 import com.turgaydede.entities.CreditScore;
 import com.turgaydede.entities.Customer;
+import com.turgaydede.entities.dtos.CreditDto;
+import com.turgaydede.entities.dtos.CreditListDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
 import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.exceptions.CreditNotFoundException;
 import com.turgaydede.repositories.CreditRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
@@ -16,6 +19,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CreditServiceImpl implements CreditService {
@@ -45,6 +50,32 @@ public class CreditServiceImpl implements CreditService {
         return modelMapper.map(credit, CreditResponseDto.class);
     }
 
+
+    @Override
+    public CreditDto delete(String identityNumber) {
+        Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
+        creditRepository.delete(credit);
+        return modelMapper.map(credit, CreditDto.class);
+
+    }
+
+    @Override
+    public CreditDto update(CreditDto creditDto) {
+        Credit credit = modelMapper.map(creditDto, Credit.class);
+        creditRepository.save(credit);
+        return modelMapper.map(credit, CreditDto.class);
+    }
+
+    @Override
+    public List<CreditListDto> getAll() {
+        List<Credit> list = creditRepository.findAll();
+        return list.stream().map(credit -> modelMapper.map(credit, CreditListDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Credit getCreditByIdentityNumber(String identityNumber) {
+       return creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
+    }
 
     private Credit createAccountForCreditScoreAndMonthlyIncome(CreditScore creditScore, Customer customer) {
         final int CREDIT_LIMIT_MULTIPLIER = 4;

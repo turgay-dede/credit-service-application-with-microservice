@@ -1,5 +1,6 @@
 package com.turgaydede.entities.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.turgaydede.entities.CreditConsent;
 import lombok.Data;
 

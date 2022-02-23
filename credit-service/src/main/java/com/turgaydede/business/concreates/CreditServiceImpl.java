@@ -7,7 +7,6 @@ import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.CreditConsent;
 import com.turgaydede.entities.CreditScore;
 import com.turgaydede.entities.dtos.CreditDto;
-import com.turgaydede.entities.dtos.CreditListDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
 import com.turgaydede.exceptions.CreditNotFoundException;
 import com.turgaydede.feign.customer.CustomerFeignClient;
@@ -40,9 +39,9 @@ public class CreditServiceImpl implements CreditService {
 
         Credit credit = createAccountForCreditScoreAndMonthlyIncome(creditScore, customerDto);
         if (isConfirmCreditApplication(credit)) {
-            creditRepository.save(credit);
             feignClient.add(customerDto);
         }
+        creditRepository.save(credit);
         return modelMapper.map(credit, CreditResponseDto.class);
     }
 
@@ -63,9 +62,9 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
-    public List<CreditListDto> getAll() {
+    public List<CreditDto> getAll() {
         List<Credit> list = creditRepository.findAll();
-        return list.stream().map(credit -> modelMapper.map(credit, CreditListDto.class)).collect(Collectors.toList());
+        return list.stream().map(credit -> modelMapper.map(credit, CreditDto.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -77,7 +76,7 @@ public class CreditServiceImpl implements CreditService {
         final int CREDIT_LIMIT_MULTIPLIER = 4;
         return isCreditScoreBetween500_1000AndMonthlyIncomeLessThan5000(creditScore, customerDto) ? Credit.silverAccount(customerDto) :
                 isCreditScoreBetween500_1000AndMonthlyIncomeGreaterThanEqual5000(creditScore, customerDto) ? Credit.goldAccount(customerDto) :
-                        isCreditScoreGreaterThanEqual1000(creditScore) ? Credit.platinumAccount(customerDto, CREDIT_LIMIT_MULTIPLIER) : Credit.rejectAccount();
+                        isCreditScoreGreaterThanEqual1000(creditScore) ? Credit.platinumAccount(customerDto, CREDIT_LIMIT_MULTIPLIER) : Credit.rejectAccount(customerDto);
 
     }
 

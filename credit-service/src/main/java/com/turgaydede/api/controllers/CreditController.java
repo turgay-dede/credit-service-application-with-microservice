@@ -4,11 +4,11 @@ import com.turgaydede.business.abstracts.CreditService;
 import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.dtos.CreditDto;
-import com.turgaydede.entities.dtos.CreditListDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/rest/credits")
@@ -35,7 +35,7 @@ public class CreditController {
     }
 
     @GetMapping("/getall")
-    public List<CreditListDto> getAll(){
+    public List<CreditDto> getAll(){
         return creditService.getAll();
     }
 

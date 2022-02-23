@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -19,12 +18,14 @@ public class Credit {
     @Id
     private String id;
     private String identityNumber;
-    @Transient
     private CreditConsent creditConsent;
     private int creditLimit;
 
-    public static Credit rejectAccount() {
-        return new CreditBuilder().creditConsent(CreditConsent.REJECT).build();
+    public static Credit rejectAccount(CustomerDto customerDto) {
+        return new CreditBuilder()
+                .identityNumber(customerDto.getIdentityNumber())
+                .creditConsent(CreditConsent.REJECT)
+                .build();
     }
 
     public static Credit silverAccount(CustomerDto customerDto) {

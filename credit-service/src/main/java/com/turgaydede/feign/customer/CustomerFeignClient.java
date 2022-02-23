@@ -1,6 +1,6 @@
 package com.turgaydede.feign.customer;
 
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.dtos.CustomerDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
 package com.turgaydede.business.abstracts;
 
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.dtos.CustomerDto;
 
 import java.util.List;
 

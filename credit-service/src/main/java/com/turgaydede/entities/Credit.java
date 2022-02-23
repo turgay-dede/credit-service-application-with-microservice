@@ -1,6 +1,6 @@
 package com.turgaydede.entities;
 
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.dtos.CustomerDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

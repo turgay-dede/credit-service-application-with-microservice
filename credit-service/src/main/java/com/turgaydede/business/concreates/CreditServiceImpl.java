@@ -2,13 +2,13 @@ package com.turgaydede.business.concreates;
 
 import com.turgaydede.business.abstracts.CreditScoreService;
 import com.turgaydede.business.abstracts.CreditService;
+import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.CreditConsent;
 import com.turgaydede.entities.CreditScore;
 import com.turgaydede.entities.dtos.CreditDto;
 import com.turgaydede.entities.dtos.CreditListDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
-import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.exceptions.CreditNotFoundException;
 import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;

@@ -1,11 +1,11 @@
 package com.turgaydede.api.controllers;
 
 import com.turgaydede.business.abstracts.CreditService;
+import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.dtos.CreditDto;
 import com.turgaydede.entities.dtos.CreditListDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
-import com.turgaydede.entities.dtos.CustomerDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.turgaydede.entities;
 
+import com.turgaydede.entities.dtos.CustomerDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,27 +27,27 @@ public class Credit {
         return new CreditBuilder().creditConsent(CreditConsent.REJECT).build();
     }
 
-    public static Credit silverAccount(Customer customer) {
+    public static Credit silverAccount(CustomerDto customerDto) {
         return new CreditBuilder()
-                .identityNumber(customer.getIdentityNumber())
+                .identityNumber(customerDto.getIdentityNumber())
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(10000)
                 .build();
     }
 
-    public static Credit goldAccount(Customer customer) {
+    public static Credit goldAccount(CustomerDto customerDto) {
         return new CreditBuilder()
-                .identityNumber(customer.getIdentityNumber())
+                .identityNumber(customerDto.getIdentityNumber())
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(20000)
                 .build();
     }
 
-    public static Credit platinumAccount(Customer customer, int creditLimitMultiplier) {
+    public static Credit platinumAccount(CustomerDto customerDto, int creditLimitMultiplier) {
         return new CreditBuilder()
-                .identityNumber(customer.getIdentityNumber())
+                .identityNumber(customerDto.getIdentityNumber())
                 .creditConsent(CreditConsent.CONFIRM)
-                .creditLimit(customer.getMonthlyIncome() * creditLimitMultiplier)
+                .creditLimit(customerDto.getMonthlyIncome() * creditLimitMultiplier)
                 .build();
     }
 

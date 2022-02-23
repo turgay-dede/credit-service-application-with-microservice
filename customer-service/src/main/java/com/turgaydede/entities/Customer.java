@@ -1,16 +1,13 @@
 package com.turgaydede.entities;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
-
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -30,5 +27,4 @@ public class Customer {
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
 }

@@ -1,10 +1,11 @@
 package com.turgaydede.entities.dtos;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.turgaydede.entities.CreditConsent;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreditDto {
     private String id;
     private String identityNumber;

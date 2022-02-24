@@ -11,7 +11,8 @@ import com.turgaydede.entities.dtos.CreditResponseDto;
 import com.turgaydede.exceptions.CreditNotFoundException;
 import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;
-import org.modelmapper.ModelMapper;
+import com.turgaydede.util.converter.CreditDtoConverter;
+import com.turgaydede.util.converter.CreditResponseDtoConverter;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,16 @@ import java.util.stream.Collectors;
 public class CreditServiceImpl implements CreditService {
     private final CreditRepository creditRepository;
     private final CreditScoreService creditScoreService;
-    private final ModelMapper modelMapper;
+    private final CreditResponseDtoConverter creditResponseDtoConverter;
+    private final CreditDtoConverter creditDtoConverter;
     private final CustomerFeignClient feignClient;
 
 
-    public CreditServiceImpl(CreditRepository creditRepository, ModelMapper modelMapper, @Lazy CreditScoreService creditScoreService, CustomerFeignClient feignClient) {
+    public CreditServiceImpl(CreditRepository creditRepository, @Lazy CreditScoreService creditScoreService, CreditResponseDtoConverter creditResponseDtoConverter, CreditDtoConverter creditDtoConverter, CustomerFeignClient feignClient) {
         this.creditRepository = creditRepository;
-        this.modelMapper = modelMapper;
         this.creditScoreService = creditScoreService;
+        this.creditResponseDtoConverter = creditResponseDtoConverter;
+        this.creditDtoConverter = creditDtoConverter;
         this.feignClient = feignClient;
     }
 
@@ -42,7 +45,7 @@ public class CreditServiceImpl implements CreditService {
             feignClient.add(customerDto);
         }
         creditRepository.save(credit);
-        return modelMapper.map(credit, CreditResponseDto.class);
+        return creditResponseDtoConverter.convert(credit);
     }
 
 
@@ -50,21 +53,26 @@ public class CreditServiceImpl implements CreditService {
     public CreditDto delete(String identityNumber) {
         Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
         creditRepository.delete(credit);
-        return modelMapper.map(credit, CreditDto.class);
+        return creditDtoConverter.convert(credit);
 
     }
 
     @Override
     public CreditDto update(CreditDto creditDto) {
-        Credit credit = modelMapper.map(creditDto, Credit.class);
+        Credit credit = Credit.builder()
+                .id(creditDto.getId())
+                .identityNumber(creditDto.getIdentityNumber())
+                .creditConsent(creditDto.getCreditConsent())
+                .creditLimit(creditDto.getCreditLimit())
+                .build();
         creditRepository.save(credit);
-        return modelMapper.map(credit, CreditDto.class);
+        return creditDtoConverter.convert(credit);
     }
 
     @Override
     public List<CreditDto> getAll() {
         List<Credit> list = creditRepository.findAll();
-        return list.stream().map(credit -> modelMapper.map(credit, CreditDto.class)).collect(Collectors.toList());
+        return list.stream().map(creditDtoConverter::convert).collect(Collectors.toList());
     }
 
     @Override

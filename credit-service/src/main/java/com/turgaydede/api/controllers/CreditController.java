@@ -5,6 +5,8 @@ import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.dtos.CreditDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
+import com.turgaydede.util.result.DataResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,28 +22,28 @@ public class CreditController {
     }
 
     @PostMapping("/credit-application")
-    public CreditResponseDto creditApplication(@RequestBody CustomerDto customerDto){
-        return creditService.creditApplication(customerDto);
+    public ResponseEntity<DataResult<CreditResponseDto>> creditApplication(@RequestBody CustomerDto customerDto){
+        return ResponseEntity.ok(creditService.creditApplication(customerDto));
     }
 
     @PutMapping("/update")
-    public CreditDto update(@RequestBody CreditDto creditDto){
-        return creditService.update(creditDto);
+    public  ResponseEntity<DataResult<CreditDto>> update(@RequestBody CreditDto creditDto){
+        return ResponseEntity.ok(creditService.update(creditDto));
     }
 
     @DeleteMapping("/delete")
-    public CreditDto delete(@RequestParam String identityNumber){
-        return creditService.delete(identityNumber);
+    public  ResponseEntity<DataResult<CreditDto>> delete(@RequestParam String identityNumber){
+        return ResponseEntity.ok(creditService.delete(identityNumber));
     }
 
     @GetMapping("/getall")
-    public List<CreditDto> getAll(){
-        return creditService.getAll();
+    public  ResponseEntity<DataResult<List<CreditDto>>> getAll(){
+        return ResponseEntity.ok(creditService.getAll());
     }
 
     @GetMapping("/get-credit/identity-number")
-    public Credit getCreditByIdentityNumber(@RequestParam String identityNumber){
-        return creditService.getCreditByIdentityNumber(identityNumber);
+    public  ResponseEntity<DataResult<Credit>> getCreditByIdentityNumber(@RequestParam String identityNumber){
+        return ResponseEntity.ok(creditService.getCreditByIdentityNumber(identityNumber));
     }
 
 }

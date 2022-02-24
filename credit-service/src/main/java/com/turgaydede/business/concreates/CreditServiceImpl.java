@@ -13,6 +13,8 @@ import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;
 import com.turgaydede.util.converter.CreditDtoConverter;
 import com.turgaydede.util.converter.CreditResponseDtoConverter;
+import com.turgaydede.util.result.DataResult;
+import com.turgaydede.util.result.SuccessDataResult;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -37,28 +39,28 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
-    public CreditResponseDto creditApplication(CustomerDto customerDto) {
-        CreditScore creditScore = creditScoreService.setCreditScore(customerDto.getIdentityNumber());
+    public DataResult<CreditResponseDto> creditApplication(CustomerDto customerDto) {
+        CreditScore creditScore = creditScoreService.setCreditScore(customerDto.getIdentityNumber()).getData();
 
         Credit credit = createAccountForCreditScoreAndMonthlyIncome(creditScore, customerDto);
         if (isConfirmCreditApplication(credit)) {
             feignClient.add(customerDto);
         }
         creditRepository.save(credit);
-        return creditResponseDtoConverter.convert(credit);
+        return new SuccessDataResult<>(creditResponseDtoConverter.convert(credit));
     }
 
 
     @Override
-    public CreditDto delete(String identityNumber) {
+    public DataResult<CreditDto> delete(String identityNumber) {
         Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
         creditRepository.delete(credit);
-        return creditDtoConverter.convert(credit);
+        return new SuccessDataResult<>(creditDtoConverter.convert(credit));
 
     }
 
     @Override
-    public CreditDto update(CreditDto creditDto) {
+    public DataResult<CreditDto> update(CreditDto creditDto) {
         Credit credit = Credit.builder()
                 .id(creditDto.getId())
                 .identityNumber(creditDto.getIdentityNumber())
@@ -66,18 +68,18 @@ public class CreditServiceImpl implements CreditService {
                 .creditLimit(creditDto.getCreditLimit())
                 .build();
         creditRepository.save(credit);
-        return creditDtoConverter.convert(credit);
+        return new SuccessDataResult<>(creditDtoConverter.convert(credit));
     }
 
     @Override
-    public List<CreditDto> getAll() {
+    public DataResult<List<CreditDto>> getAll() {
         List<Credit> list = creditRepository.findAll();
-        return list.stream().map(creditDtoConverter::convert).collect(Collectors.toList());
+        return new SuccessDataResult<>(list.stream().map(creditDtoConverter::convert).collect(Collectors.toList()));
     }
 
     @Override
-    public Credit getCreditByIdentityNumber(String identityNumber) {
-        return creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
+    public DataResult<Credit> getCreditByIdentityNumber(String identityNumber) {
+        return new SuccessDataResult<>(creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new));
     }
 
     private Credit createAccountForCreditScoreAndMonthlyIncome(CreditScore creditScore, CustomerDto customerDto) {

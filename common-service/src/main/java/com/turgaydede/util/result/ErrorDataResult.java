@@ -12,6 +12,11 @@ public class ErrorDataResult<T> extends DataResult<T> {
         super(false, data, message);
         this.validationErrors = validationErrors;
     }
+
+    public ErrorDataResult(T data, Map<String,String> validationErrors) {
+        super(false, data);
+        this.validationErrors = validationErrors;
+    }
     public ErrorDataResult(String message, T data) {
         super(false, data, message);
     }

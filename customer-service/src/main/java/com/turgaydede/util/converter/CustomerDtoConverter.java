@@ -1,7 +1,7 @@
 package com.turgaydede.util.converter;
 
-import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Customer;
+import com.turgaydede.entities.dtos.CustomerDto;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

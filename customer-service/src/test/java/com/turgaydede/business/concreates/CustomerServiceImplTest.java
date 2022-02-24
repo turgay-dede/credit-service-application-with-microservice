@@ -1,7 +1,7 @@
 package com.turgaydede.business.concreates;
 
-import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Customer;
+import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.exceptions.CustomerNotFoundException;
 import com.turgaydede.repositories.CustomerRepository;
 import com.turgaydede.util.converter.CustomerDtoConverter;

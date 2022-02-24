@@ -13,6 +13,11 @@ public class ErrorResult extends Result {
         this.validationErrors = validationErrors;
     }
 
+    public ErrorResult(Map<String, String> validationErrors) {
+        super(false);
+        this.validationErrors = validationErrors;
+    }
+
     public ErrorResult(String message) {
         super(false, message);
     }

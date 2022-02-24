@@ -2,6 +2,7 @@ package com.turgaydede.business.concreates;
 
 import com.turgaydede.business.abstracts.CreditScoreService;
 import com.turgaydede.business.abstracts.CreditService;
+import com.turgaydede.constants.Messages;
 import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.CreditConsent;
@@ -14,6 +15,7 @@ import com.turgaydede.repositories.CreditRepository;
 import com.turgaydede.util.converter.CreditDtoConverter;
 import com.turgaydede.util.converter.CreditResponseDtoConverter;
 import com.turgaydede.util.result.DataResult;
+import com.turgaydede.util.result.ErrorDataResult;
 import com.turgaydede.util.result.SuccessDataResult;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -47,7 +49,10 @@ public class CreditServiceImpl implements CreditService {
             feignClient.add(customerDto);
         }
         creditRepository.save(credit);
-        return new SuccessDataResult<>(creditResponseDtoConverter.convert(credit));
+
+        return isConfirmCreditApplication(credit)
+                ? new SuccessDataResult<>(creditResponseDtoConverter.convert(credit), Messages.CREDIT_APPLICATION)
+                : new ErrorDataResult<>(Messages.CREDIT_APPLICATION, creditResponseDtoConverter.convert(credit));
     }
 
 
@@ -55,7 +60,7 @@ public class CreditServiceImpl implements CreditService {
     public DataResult<CreditDto> delete(String identityNumber) {
         Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
         creditRepository.delete(credit);
-        return new SuccessDataResult<>(creditDtoConverter.convert(credit));
+        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.DELETED);
 
     }
 
@@ -68,18 +73,18 @@ public class CreditServiceImpl implements CreditService {
                 .creditLimit(creditDto.getCreditLimit())
                 .build();
         creditRepository.save(credit);
-        return new SuccessDataResult<>(creditDtoConverter.convert(credit));
+        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.UPDATED);
     }
 
     @Override
     public DataResult<List<CreditDto>> getAll() {
         List<Credit> list = creditRepository.findAll();
-        return new SuccessDataResult<>(list.stream().map(creditDtoConverter::convert).collect(Collectors.toList()));
+        return new SuccessDataResult<>(list.stream().map(creditDtoConverter::convert).collect(Collectors.toList()), Messages.LISTED);
     }
 
     @Override
     public DataResult<Credit> getCreditByIdentityNumber(String identityNumber) {
-        return new SuccessDataResult<>(creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new));
+        return new SuccessDataResult<>(creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new), Messages.CREDIT_FOR_IDENTITY_NUMBER);
     }
 
     private Credit createAccountForCreditScoreAndMonthlyIncome(CreditScore creditScore, CustomerDto customerDto) {

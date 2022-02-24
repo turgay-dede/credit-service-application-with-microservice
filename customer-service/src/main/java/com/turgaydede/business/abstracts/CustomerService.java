@@ -1,14 +1,14 @@
 package com.turgaydede.business.abstracts;
 
 import com.turgaydede.dtos.CustomerDto;
-import com.turgaydede.entities.Customer;
+import com.turgaydede.util.result.DataResult;
 
 import java.util.List;
 
 public interface CustomerService {
-    CustomerDto getByCustomerForIdentityNumber(String identityNumber);
-    CustomerDto add(CustomerDto customerDto);
-    CustomerDto delete(int customerId);
-    CustomerDto update(CustomerDto customerDto);
-    List<CustomerDto> getAll();
+    DataResult<CustomerDto> getByCustomerForIdentityNumber(String identityNumber);
+    DataResult<CustomerDto> add(CustomerDto customerDto);
+    DataResult<CustomerDto> delete(int customerId);
+    DataResult<CustomerDto> update(CustomerDto customerDto);
+    DataResult<List<CustomerDto>> getAll();
 }

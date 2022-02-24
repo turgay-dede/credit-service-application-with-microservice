@@ -2,6 +2,7 @@ package com.turgaydede.api.controllers;
 
 import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.dtos.CustomerDto;
+import com.turgaydede.util.result.DataResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,27 +17,27 @@ public class CustomerController {
         this.customerService = customerService;
     }
     @PostMapping("/add")
-    public ResponseEntity<CustomerDto> add(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<DataResult<CustomerDto>> add(@RequestBody CustomerDto customerDto) {
         return ResponseEntity.ok(customerService.add(customerDto));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<CustomerDto> delete(@RequestParam int customerId) {
+    public ResponseEntity<DataResult<CustomerDto>> delete(@RequestParam int customerId) {
         return ResponseEntity.ok(customerService.delete(customerId));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CustomerDto> update(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<DataResult<CustomerDto>> update(@RequestBody CustomerDto customerDto) {
         return ResponseEntity.ok(customerService.update(customerDto));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<CustomerDto>> getAll() {
+    public ResponseEntity<DataResult<List<CustomerDto>>> getAll() {
         return ResponseEntity.ok(customerService.getAll());
     }
 
     @GetMapping("/get/customer/identity-number")
-    public ResponseEntity<CustomerDto> getByCustomerForIdentityNumber(@RequestParam String identityNumber) {
+    public ResponseEntity<DataResult<CustomerDto>> getByCustomerForIdentityNumber(@RequestParam String identityNumber) {
         return ResponseEntity.ok(customerService.getByCustomerForIdentityNumber(identityNumber));
     }
 }

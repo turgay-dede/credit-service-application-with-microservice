@@ -6,6 +6,8 @@ import com.turgaydede.entities.Customer;
 import com.turgaydede.exceptions.CustomerNotFoundException;
 import com.turgaydede.repositories.CustomerRepository;
 import com.turgaydede.util.converter.CustomerDtoConverter;
+import com.turgaydede.util.result.DataResult;
+import com.turgaydede.util.result.SuccessDataResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto add(CustomerDto customerDto) {
+    public DataResult<CustomerDto> add(CustomerDto customerDto) {
         Customer customer = Customer.builder()
                 .id(customerDto.getId())
                 .fullName(customerDto.getFullName())
@@ -30,18 +32,18 @@ public class CustomerServiceImpl implements CustomerService {
                 .monthlyIncome(customerDto.getMonthlyIncome())
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
-        return customerDtoConverter.convert(customer);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer));
     }
 
     @Override
-    public CustomerDto delete(int customerId) {
+    public DataResult<CustomerDto> delete(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         customerRepository.delete(customer);
-        return customerDtoConverter.convert(customer);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer));
     }
 
     @Override
-    public CustomerDto update(CustomerDto customerDto) {
+    public DataResult<CustomerDto> update(CustomerDto customerDto) {
         Customer customer = Customer.builder()
                 .id(customerDto.getId())
                 .fullName(customerDto.getFullName())
@@ -50,18 +52,18 @@ public class CustomerServiceImpl implements CustomerService {
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
         customerRepository.save(customer);
-        return customerDtoConverter.convert(customer);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer));
     }
 
     @Override
-    public List<CustomerDto> getAll() {
+    public DataResult<List<CustomerDto>> getAll() {
         List<Customer> customers = customerRepository.findAll();
-        return customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList());
+        return new SuccessDataResult<>(customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList()));
     }
 
     @Override
-    public CustomerDto getByCustomerForIdentityNumber(String identityNumber) {
+    public DataResult<CustomerDto> getByCustomerForIdentityNumber(String identityNumber) {
         Customer customer = customerRepository.findByIdentityNumber(identityNumber).orElseThrow(CustomerNotFoundException::new);
-        return customerDtoConverter.convert(customer);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer));
     }
 }

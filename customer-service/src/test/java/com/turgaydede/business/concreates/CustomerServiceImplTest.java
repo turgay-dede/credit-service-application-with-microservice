@@ -2,6 +2,7 @@ package com.turgaydede.business.concreates;
 
 import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Customer;
+import com.turgaydede.exceptions.CustomerNotFoundException;
 import com.turgaydede.repositories.CustomerRepository;
 import com.turgaydede.util.converter.CustomerDtoConverter;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.mockito.Mockito;
 
 class CustomerServiceImplTest {
     private CustomerServiceImpl customerServiceImpl;
+
 
     private CustomerRepository customerRepository;
     private CustomerDtoConverter customerDtoConverter;
@@ -44,10 +46,18 @@ class CustomerServiceImplTest {
         Mockito.when(customerDtoConverter.convert(customer)).thenReturn(customerDto);
 
 
-        CustomerDto result = customerServiceImpl.add(customerDto);
+        CustomerDto result = customerServiceImpl.add(customerDto).getData();
         Assertions.assertEquals(result, customerDto);
 
         Mockito.verify(customerDtoConverter).convert(customer);
+    }
+
+    @Test
+    void delete() {
+        int customerId = 105;
+
+        Mockito.doThrow(new CustomerNotFoundException()).when(customerRepository).findById(customerId);
+
     }
 
 }

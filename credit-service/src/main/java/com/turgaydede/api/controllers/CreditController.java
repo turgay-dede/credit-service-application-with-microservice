@@ -1,14 +1,15 @@
 package com.turgaydede.api.controllers;
 
 import com.turgaydede.business.abstracts.CreditService;
-import com.turgaydede.dtos.CustomerDto;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.dtos.CreditDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
+import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.util.result.DataResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,12 +23,12 @@ public class CreditController {
     }
 
     @PostMapping("/credit-application")
-    public ResponseEntity<DataResult<CreditResponseDto>> creditApplication(@RequestBody CustomerDto customerDto){
+    public ResponseEntity<DataResult<CreditResponseDto>> creditApplication(@Valid @RequestBody CustomerDto customerDto){
         return ResponseEntity.ok(creditService.creditApplication(customerDto));
     }
 
     @PutMapping("/update")
-    public  ResponseEntity<DataResult<CreditDto>> update(@RequestBody CreditDto creditDto){
+    public  ResponseEntity<DataResult<CreditDto>> update(@Valid @RequestBody CreditDto creditDto){
         return ResponseEntity.ok(creditService.update(creditDto));
     }
 

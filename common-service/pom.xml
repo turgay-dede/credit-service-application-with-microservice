@@ -16,4 +16,12 @@
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+    </dependencies>
+
 </project>

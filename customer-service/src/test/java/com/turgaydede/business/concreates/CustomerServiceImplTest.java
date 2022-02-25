@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
-
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
     @Mock
@@ -49,6 +48,28 @@ class CustomerServiceImplTest {
 
         Mockito.verify(customerRepository, Mockito.times(1)).delete(customer);
     }
+
+    @Test
+    void update() {
+        CustomerDto customerDto = generateCustomerDto();
+
+        Customer customer = Customer.builder()
+                .id(customerDto.getId())
+                .fullName(customerDto.getFullName())
+                .identityNumber(customerDto.getIdentityNumber())
+                .monthlyIncome(customerDto.getMonthlyIncome())
+                .phoneNumber(customerDto.getPhoneNumber())
+                .build();
+
+        Mockito.when(customerRepository.save(customer)).thenReturn(customer);
+
+        CustomerDto updatedCustomerDto = customerServiceImpl.update(customerDto).getData();
+
+        Assertions.assertNotEquals(updatedCustomerDto,customerDto);
+
+        Mockito.verify(customerRepository).save(Mockito.any(Customer.class));
+    }
+
 
 
     private Customer generateCustomer() {

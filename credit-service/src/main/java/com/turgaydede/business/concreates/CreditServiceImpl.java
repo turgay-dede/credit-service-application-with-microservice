@@ -79,8 +79,9 @@ public class CreditServiceImpl implements CreditService {
     }
 
     @Override
-    public DataResult<Credit> getCreditByIdentityNumber(String identityNumber) {
-        return new SuccessDataResult<>(creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new), Messages.CREDIT_FOR_IDENTITY_NUMBER);
+    public DataResult<CreditDto> getCreditByIdentityNumber(String identityNumber) {
+        Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
+        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.CREDIT_FOR_IDENTITY_NUMBER);
     }
 
     private Credit createAccountForCreditScoreAndMonthlyIncome(CreditScore creditScore, CustomerDto customerDto) {

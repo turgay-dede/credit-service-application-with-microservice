@@ -43,7 +43,7 @@ public class CreditController {
     }
 
     @GetMapping("/get-credit/identity-number")
-    public  ResponseEntity<DataResult<Credit>> getCreditByIdentityNumber(@RequestParam String identityNumber){
+    public  ResponseEntity<DataResult<CreditDto>> getCreditByIdentityNumber(@RequestParam String identityNumber){
         return ResponseEntity.ok(creditService.getCreditByIdentityNumber(identityNumber));
     }
 

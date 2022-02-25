@@ -14,5 +14,5 @@ public interface CreditService {
     DataResult<CreditDto> delete(String identityNumber);
     DataResult<CreditDto> update(CreditDto creditDto);
     DataResult<List<CreditDto>> getAll();
-    DataResult<Credit> getCreditByIdentityNumber(String identityNumber);
+    DataResult<CreditDto> getCreditByIdentityNumber(String identityNumber);
 }

@@ -15,7 +15,6 @@ import com.turgaydede.repositories.CreditRepository;
 import com.turgaydede.util.converter.CreditDtoConverter;
 import com.turgaydede.util.converter.CreditResponseDtoConverter;
 import com.turgaydede.util.result.DataResult;
-import com.turgaydede.util.result.ErrorDataResult;
 import com.turgaydede.util.result.SuccessDataResult;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -43,16 +42,13 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public DataResult<CreditResponseDto> creditApplication(CustomerDto customerDto) {
         CreditScore creditScore = creditScoreService.setCreditScore(customerDto.getIdentityNumber()).getData();
-
         Credit credit = createAccountForCreditScoreAndMonthlyIncome(creditScore, customerDto);
-        if (isConfirmCreditApplication(credit)) {
-            feignClient.add(customerDto);
-        }
-        creditRepository.save(credit);
 
-        return isConfirmCreditApplication(credit)
-                ? new SuccessDataResult<>(creditResponseDtoConverter.convert(credit), Messages.CREDIT_APPLICATION)
-                : new ErrorDataResult<>(Messages.CREDIT_APPLICATION, creditResponseDtoConverter.convert(credit));
+        if (isConfirmCreditApplication(credit))
+            feignClient.add(customerDto);
+
+        creditRepository.save(credit);
+        return new SuccessDataResult<>(creditResponseDtoConverter.convert(credit), Messages.CREDIT_APPLICATION);
     }
 
 

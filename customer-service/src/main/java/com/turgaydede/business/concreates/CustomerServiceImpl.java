@@ -33,6 +33,9 @@ public class CustomerServiceImpl implements CustomerService {
                 .monthlyIncome(customerDto.getMonthlyIncome())
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
+
+
+        customerRepository.save(customer);
         return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.ADDED);
     }
 
@@ -40,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     public DataResult<CustomerDto> delete(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         customerRepository.delete(customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer),Messages.DELETED);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.DELETED);
     }
 
     @Override
@@ -52,19 +55,20 @@ public class CustomerServiceImpl implements CustomerService {
                 .monthlyIncome(customerDto.getMonthlyIncome())
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
+
         customerRepository.save(customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer),Messages.UPDATED);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.UPDATED);
     }
 
     @Override
     public DataResult<List<CustomerDto>> getAll() {
         List<Customer> customers = customerRepository.findAll();
-        return new SuccessDataResult<>(customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList()),Messages.LISTED);
+        return new SuccessDataResult<>(customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList()), Messages.LISTED);
     }
 
     @Override
     public DataResult<CustomerDto> getByCustomerForIdentityNumber(String identityNumber) {
         Customer customer = customerRepository.findByIdentityNumber(identityNumber).orElseThrow(CustomerNotFoundException::new);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer),Messages.CUSTOMER_FOR_IDENTITY_NUMBER);
+        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.CUSTOMER_FOR_IDENTITY_NUMBER);
     }
 }

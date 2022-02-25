@@ -2,44 +2,33 @@ package com.turgaydede.business.concreates;
 
 import com.turgaydede.entities.Customer;
 import com.turgaydede.entities.dtos.CustomerDto;
-import com.turgaydede.exceptions.CustomerNotFoundException;
 import com.turgaydede.repositories.CustomerRepository;
 import com.turgaydede.util.converter.CustomerDtoConverter;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+
+
+@ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
-    private CustomerServiceImpl customerServiceImpl;
-
-
+    @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
     private CustomerDtoConverter customerDtoConverter;
 
-
-    @BeforeEach
-    void setUp() {
-        customerRepository = Mockito.mock(CustomerRepository.class);
-        customerDtoConverter = Mockito.mock(CustomerDtoConverter.class);
-        customerServiceImpl = new CustomerServiceImpl(customerRepository, customerDtoConverter);
-    }
+    @InjectMocks
+    private CustomerServiceImpl customerServiceImpl;
 
     @Test
     void add() {
-        Customer customer = Customer.builder()
-                .fullName("Turgay Dede")
-                .identityNumber("20000000000")
-                .monthlyIncome(8000)
-                .phoneNumber("5400000000")
-                .build();
-
-        CustomerDto customerDto = new CustomerDto.Builder()
-                .fullName("Turgay Dede")
-                .identityNumber("20000000000")
-                .monthlyIncome(8000)
-                .phoneNumber("5400000000")
-                .build();
+        Customer customer = generateCustomer();
+        CustomerDto customerDto = generateCustomerDto();
 
 
         Mockito.when(customerRepository.save(customer)).thenReturn(customer);
@@ -54,10 +43,32 @@ class CustomerServiceImplTest {
 
     @Test
     void delete() {
-        int customerId = 105;
+        Customer customer = generateCustomer();
 
-        Mockito.doThrow(new CustomerNotFoundException()).when(customerRepository).findById(customerId);
+        customerRepository.delete(customer);
 
+        Mockito.verify(customerRepository, Mockito.times(1)).delete(customer);
+    }
+
+
+    private Customer generateCustomer() {
+        return Customer.builder()
+                .id(1)
+                .fullName("Turgay Dede")
+                .identityNumber("20000000000")
+                .monthlyIncome(8000)
+                .phoneNumber("5400000000")
+                .build();
+    }
+
+    private CustomerDto generateCustomerDto() {
+        return new CustomerDto.Builder()
+                .id(1)
+                .fullName("Turgay Dede")
+                .identityNumber("20000000000")
+                .monthlyIncome(8000)
+                .phoneNumber("5400000000")
+                .build();
     }
 
 }

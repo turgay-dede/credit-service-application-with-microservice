@@ -12,6 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -70,6 +77,20 @@ class CustomerServiceImplTest {
         Mockito.verify(customerRepository).save(Mockito.any(Customer.class));
     }
 
+    @Test
+    void getAll() {
+        List<Customer> customerList = new ArrayList<>();
+        Customer customer1 = generateCustomer();
+        Customer customer2 = generateCustomer();
+        customerList.add(customer1);
+        customerList.add(customer2);
+
+        Mockito.when(customerRepository.findAll()).thenReturn(customerList);
+
+        List<CustomerDto> customerDtoList = customerServiceImpl.getAll().getData();
+
+        Assertions.assertEquals(customerList.size(),customerDtoList.size());
+    }
 
 
     private Customer generateCustomer() {

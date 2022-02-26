@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -73,6 +74,28 @@ class CreditServiceImplTest {
         List<CreditDto> result = creditServiceImpl.getAll().getData();
         assertEquals(creditList.size(), result.size());
     }
+
+    @Test
+    void getCreditByIdentityNumber() {
+        String identityNumber = "20000000000";
+        CreditDto creditDto = generateConfirmCreditDto();
+        Credit credit = Credit.builder()
+                .id("1")
+                .identityNumber("20000000000")
+                .creditConsent(CreditConsent.CONFIRM)
+                .creditLimit(10000)
+                .build();
+
+        when(creditRepository.findCreditByIdentityNumber(identityNumber)).thenReturn(Optional.of(credit));
+        when(creditDtoConverter.convert(credit)).thenReturn(creditDto);
+
+        CreditDto result = creditServiceImpl.getCreditByIdentityNumber(credit.getIdentityNumber()).getData();
+
+        assertEquals(result, creditDto);
+        verify(creditDtoConverter).convert(credit);
+        verify(creditRepository).findCreditByIdentityNumber(identityNumber);
+    }
+
 
     private Credit generateConfirmCredit(){
         return Credit.builder()

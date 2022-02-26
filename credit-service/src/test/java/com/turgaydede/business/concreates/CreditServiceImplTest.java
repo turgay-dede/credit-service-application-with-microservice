@@ -15,6 +15,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,6 +58,20 @@ class CreditServiceImplTest {
         CreditDto result = creditServiceImpl.update(creditDto).getData();
         assertNotEquals(result, creditDto);
         verify(creditRepository).save(Mockito.any(Credit.class));
+    }
+
+    @Test
+    void getAll() {
+        List<Credit> creditList = new ArrayList<>();
+        Credit credit1 = generateConfirmCredit();
+        Credit credit2 = generateConfirmCredit();
+        creditList.add(credit1);
+        creditList.add(credit2);
+
+        when(creditRepository.findAll()).thenReturn(creditList);
+
+        List<CreditDto> result = creditServiceImpl.getAll().getData();
+        assertEquals(creditList.size(), result.size());
     }
 
     private Credit generateConfirmCredit(){

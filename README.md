@@ -20,27 +20,93 @@ Projedeki messages ve result gibi ortak yapılar maven projesinde  tutulmuştur.
 # Customer Service
 CRUD işlemleri ve Kimlik numarası ile kullanıcıları sorgulama istekleri bulunmaktadır. Veri tabanı olarak Postgresql kullanılmıştır.
 
-Kullanıcı ekleme: http://localhost:8081/rest/customers/add veya http://localhost:9191/rest/customers/add
 
-Kullanıcı silme: http://localhost:8081/rest/customers/delete?customerId=xxxx veya http://localhost:9191/rest/customers/delete?customerId=xxxx
+## API Kullanımı
+```
+CUSTOMER SERVICE
+http://localhost:8081/rest/customers veya http://localhost:9191/rest/customers
+```
 
-Kullanıcı güncelleme: http://localhost:8081/rest/customers/update veya http://localhost:9191/rest/customers/
+#### Kullanıcı ekle
 
-Tüm kullanıcıları listeleme: http://localhost:8081/rest/customers/getall veya http://localhost:9191/rest/customers/getall
 
-Kimlik numarasına göre kullanıcıları listeleme: http://localhost:8081/rest/customers/get/customer/identity-number?identityNumber=xxx veya http://localhost:9191/rest/customers/get/customer/identity-number?identityNumber=xxx
+|   HTTP    |   Parametre   |      URL     |
+| :-------- | :-----------  | :------------|
+|    POST   | `customerDto` |     /add     |
+
+#### Kullanıcı sil
+
+
+|   HTTP    |   Parametre   |                URL                  |
+| :-------- | :-----------  | :-----------------------------------|
+|   DELETE  | `customerId ` |   /delete?customerId=customerId     |
+
+#### Kullanıcı güncelle
+
+
+|   HTTP    |   Parametre   |      URL     |
+| :-------- | :-----------  | :----------- |
+|    PUT    | `customerDto` |    /update   |
+
+#### Tüm kullanıcıları listele
+
+
+|   HTTP    |   Parametre   |      URL     |
+| :-------- | :-----------  | :----------- |
+|    GET    |      -        |    /getall   |
+
+
+#### Kimlik numarasına göre kullanıcıları listele
+
+
+|   HTTP    |    Parametre      |                         URL                                     |
+| :-------- | :--------------   | :---------------------------------------------------------------|
+|   GET     | `identityNumber ` |   /get/customer/identity-number?identityNumber=identityNumber   |
+
+
 
 # Credit Service
 CRUD işlemleri ve Kimlik numarası ile kullanıcıları sorgulama istekleri bulunmaktadır. Veri tabanı olarak MongoDB kullanılmıştır. Kredi başvurusunda bulunulduğunda kredi onaylanırsa kullanıcı veri tabanına kaydedilmektedir. Microservice haberleştirmesi için “Feign” kullanılmıştır.
 
-Hesap ekleme: http://localhost:8082/rest/credits/credit-application veya  http://localhost:9191/rest/credits/credit-application
 
-Hesap silme: http://localhost:8082/rest/credits/delete?identityNumber=xxx veya  http://localhost:9191/rest/credits/delete?identityNumber=xxx 
+```
+CREDIT SERVICE
+http://localhost:8082/rest/credits veya http://localhost:9191/rest/credits
+```
 
-Hesap güncelleme: http://localhost:8082/rest/credits/update veya  http://localhost:9191/rest/credits/update 
+#### Kredi başuru
 
-Tüm hesap listeleme: http://localhost:8082/rest/credits/getall veya  http://localhost:9191/rest/credits/getall 
 
-Kimlik numarasına göre hesapları listeleme: http://localhost:8082/rest/credits/get/credit/identity-number?identityNumber=xxx veya http://localhost:9191/rest/credits/get/credit/identity-number?identityNumber=xxx  
+|   HTTP    |   Parametre   |             URL             |
+| :-------- | :-----------  | :---------------------------|
+|    POST   | `customerDto` |     /credit-application     |
 
+#### Kredi sil
+
+
+|   HTTP    |     Parametre     |                     URL                     |
+| :-------- | :---------------  | :-------------------------------------------|
+|   DELETE  | `identityNumber ` |   /delete?identityNumber=identityNumber     |
+
+#### Kredi güncelle
+
+
+|   HTTP    |   Parametre   |      URL     |
+| :-------- | :-----------  | :----------- |
+|    PUT    | `creditDto`   |    /update   |
+
+#### Tüm kredileri listele
+
+
+|   HTTP    |   Parametre   |      URL     |
+| :-------- | :-----------  | :----------- |
+|    GET    |      -        |    /getall   |
+
+
+#### Kimlik numarasına göre kredileri listele
+
+
+|   HTTP    |    Parametre      |                         URL                                     |
+| :-------- | :--------------   | :---------------------------------------------------------------|
+|   GET     | `identityNumber ` |   /get/credit/identity-number?identityNumber=identityNumber     |
 

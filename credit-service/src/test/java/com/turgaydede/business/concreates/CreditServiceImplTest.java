@@ -3,21 +3,31 @@ package com.turgaydede.business.concreates;
 import com.turgaydede.business.abstracts.CreditScoreService;
 import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.CreditConsent;
+import com.turgaydede.entities.CreditScore;
 import com.turgaydede.entities.dtos.CreditDto;
+import com.turgaydede.entities.dtos.CreditResponseDto;
+import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;
+import com.turgaydede.repositories.CreditScoreRepository;
 import com.turgaydede.util.converter.CreditDtoConverter;
 import com.turgaydede.util.converter.CreditResponseDtoConverter;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -34,6 +44,65 @@ class CreditServiceImplTest {
 
     @InjectMocks
     private CreditServiceImpl creditServiceImpl;
+
+    @Test
+    void rejectAccount() {
+        CustomerDto customerDto = generateCustomerDto();
+        CreditScore creditScore = generateCreditScore();
+        creditScore.setCreditScore(400);
+        Credit credit = null;
+
+        if(creditScore.getCreditScore() < 500){
+            credit = Credit.rejectAccount(customerDto);
+        }
+
+        assertEquals(credit,Credit.rejectAccount(customerDto));
+    }
+
+    @Test
+    void silverAccount(){
+        CustomerDto customerDto = generateCustomerDto();
+        customerDto.setMonthlyIncome(4000);
+        CreditScore creditScore = generateCreditScore();
+        creditScore.setCreditScore(600);
+        Credit credit = null;
+
+        if(creditScore.getCreditScore() > 500 && creditScore.getCreditScore() < 1000 && customerDto.getMonthlyIncome() < 5000){
+            credit = Credit.silverAccount(customerDto);
+        }
+
+        assertEquals(credit,Credit.silverAccount(customerDto));
+    }
+
+    @Test
+    void goldAccount(){
+        CustomerDto customerDto = generateCustomerDto();
+        customerDto.setMonthlyIncome(6000);
+        CreditScore creditScore = generateCreditScore();
+        creditScore.setCreditScore(600);
+        Credit credit = null;
+
+        if(creditScore.getCreditScore() > 500 && creditScore.getCreditScore() < 1000 && customerDto.getMonthlyIncome() >= 5000){
+            credit = Credit.goldAccount(customerDto);
+        }
+
+        assertEquals(credit,Credit.goldAccount(customerDto));
+    }
+
+    @Test
+    void platinumAccount(){
+        final int CREDIT_LIMIT_MULTIPLIER = 4;
+        CustomerDto customerDto = generateCustomerDto();
+        CreditScore creditScore = generateCreditScore();
+        creditScore.setCreditScore(1100);
+        Credit credit = null;
+
+        if(creditScore.getCreditScore() >= 1000){
+            credit = Credit.platinumAccount(customerDto,CREDIT_LIMIT_MULTIPLIER);
+        }
+
+        assertEquals(credit,Credit.platinumAccount(customerDto,CREDIT_LIMIT_MULTIPLIER));
+    }
 
     @Test
     void delete() {
@@ -110,6 +179,38 @@ class CreditServiceImplTest {
         return CreditDto.builder()
                 .id("1")
                 .identityNumber("20000000000")
+                .creditConsent(CreditConsent.CONFIRM)
+                .creditLimit(10000)
+                .build();
+    }
+
+    private CreditScore generateCreditScore(){
+        return CreditScore.builder()
+                .id("1")
+                .identityNumber("20000000000")
+                .creditScore(100)
+                .build();
+    }
+
+    private CustomerDto generateCustomerDto() {
+        return new CustomerDto.Builder()
+                .id(1)
+                .fullName("Turgay Dede")
+                .identityNumber("20000000000")
+                .monthlyIncome(8000)
+                .phoneNumber("5400000000")
+                .build();
+    }
+
+    private CreditResponseDto generateRejectCreditResponseDto() {
+        return CreditResponseDto.builder()
+                .creditConsent(CreditConsent.REJECT)
+                .creditLimit(0)
+                .build();
+    }
+
+    private CreditResponseDto generateConfirmCreditResponseDto() {
+        return CreditResponseDto.builder()
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(10000)
                 .build();

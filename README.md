@@ -1,23 +1,25 @@
-# PROJE SENARYOSU
+:boom: [FRONTEND](https://github.com/turgay-dede/innova-senior-project-frontend) :boom:
+
+# PROJE SENARYOSU :page_facing_up:
 Kullanıcı adı, soyadı, kimlik numarası, aylık geliri ve telefon numarası ile kredi başvurusu yapar. Kullanıcının kredi skoru ve aylık gelirine göre kullanıcıya kredi sonucu gösterilir. Kullanıcının kredi skoru 500 den düşük ise RED cevabı almaktadır. Kredi skoru 500-1000 arasında ve aylık geliri 5000 den düşük ise ONAYLANDI – LİMİT: 10.000 cevabı almaktadır.  Kredi skoru 500-1000 arasında ve aylık geliri 5000 den yüksek ise ONAYLANDI – LİMİT: 20.000 cevabı almaktadır. Son olarak kredi skoru 1000 den büyük veya eşit ise, ONAYLANDI – LİMİT: aylık gelir * kredi limit çarpanı = 4. Gerçekleştirilen kredi başvurusu sadece kimlik numarası ile sorgulanabilmektedir.
-# PROJENIN YAPISI
+# PROJENIN YAPISI :hammer:
 Proje Microservice mimarisi yaklaşımına göre;
 Customer Service, Credit Service, Service Registry, Api Gateway ve Common Service olarak ayrılmıştır.
 
 ![proje-yapisi](https://user-images.githubusercontent.com/68081349/155882270-cf79ef87-cdb8-42ec-83f0-5831f4ccffdc.png)
 
-# Service Registry
+# Service Registry :pushpin:
 Eureka server projeye dahil edildi. http://localhost:8761/ portunda aktifleştirildi.
 
 ![eureka](https://user-images.githubusercontent.com/68081349/155882348-4a5e19e2-792e-4335-9e02-42b5973c9ac1.png)
 
-# Api Gateway
+# Api Gateway :pushpin:
 Customer Service ve Credit Service Api Gatewaye bağlandı. http://localhost:9191/ portu üzerinden her iki servise de erişilebilmektedir.
 
-# Common Service
+# Common Service :pushpin:
 Projedeki messages ve result gibi ortak yapılar maven projesinde  tutulmuştur.
 
-# Customer Service
+# Customer Service :pushpin:
 CRUD işlemleri ve Kimlik numarası ile kullanıcıları sorgulama istekleri bulunmaktadır. Veri tabanı olarak Postgresql kullanılmıştır.
 
 
@@ -65,10 +67,10 @@ http://localhost:8081/rest/customers veya http://localhost:9191/rest/customers
 
 
 
-# Credit Service
+# Credit Service :pushpin:
 CRUD işlemleri ve Kimlik numarası ile kullanıcıları sorgulama istekleri bulunmaktadır. Veri tabanı olarak MongoDB kullanılmıştır. Kredi başvurusunda bulunulduğunda kredi onaylanırsa kullanıcı veri tabanına kaydedilmektedir. Microservice haberleştirmesi için “Feign” kullanılmıştır.
 
-
+## API Kullanımı
 ```
 CREDIT SERVICE
 http://localhost:8082/rest/credits veya http://localhost:9191/rest/credits

@@ -74,7 +74,7 @@ CREDIT SERVICE
 http://localhost:8082/rest/credits veya http://localhost:9191/rest/credits
 ```
 
-#### Kredi başuru
+#### Kredi başvuru
 
 
 |   HTTP    |   Parametre   |             URL             |

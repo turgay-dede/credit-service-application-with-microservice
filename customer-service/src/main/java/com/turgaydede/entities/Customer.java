@@ -11,6 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Builder
+@ToString
 @Entity
 @Table(name = "customers")
 public class Customer implements Serializable {

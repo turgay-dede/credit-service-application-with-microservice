@@ -5,4 +5,10 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-    
+
+logging:
+  file:
+    name: log/eureka.log
+
+  level:
+    root: info

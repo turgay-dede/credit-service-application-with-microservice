@@ -1,4 +1,19 @@
+server:
+  port: 8081
+
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/innovabankdb
+    username: postgres
+    password: 12345
+
   application:
     name: CUSTOMER-SERVICE
 

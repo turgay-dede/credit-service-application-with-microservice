@@ -2,6 +2,7 @@ package com.turgaydede.exceptions;
 
 import com.turgaydede.util.result.ErrorResult;
 import com.turgaydede.util.result.Result;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 
 @RestControllerAdvice
+@Log4j2
 public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
@@ -38,6 +40,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CreditNotFoundException.class)
     public ResponseEntity<Result> CustomerNotFoundException(CreditNotFoundException exception) {
         String message = exception.getMessage();
+        log.error(message);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResult(message));
     }
 }

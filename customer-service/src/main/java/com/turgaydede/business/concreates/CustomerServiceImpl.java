@@ -9,12 +9,14 @@ import com.turgaydede.repositories.CustomerRepository;
 import com.turgaydede.util.converter.CustomerDtoConverter;
 import com.turgaydede.util.result.DataResult;
 import com.turgaydede.util.result.SuccessDataResult;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomerDtoConverter customerDtoConverter;
@@ -36,6 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
         customerRepository.save(customer);
+        log.info(Messages.ADDED + " " + customer);
         return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.ADDED);
     }
 
@@ -43,6 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     public DataResult<CustomerDto> delete(int customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         customerRepository.delete(customer);
+        log.info(Messages.DELETED + " " + customer);
         return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.DELETED);
     }
 
@@ -57,18 +61,21 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
 
         customerRepository.save(customer);
+        log.info(Messages.UPDATED + " " + customer);
         return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.UPDATED);
     }
 
     @Override
     public DataResult<List<CustomerDto>> getAll() {
         List<Customer> customers = customerRepository.findAll();
+        log.info(Messages.LISTED);
         return new SuccessDataResult<>(customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList()), Messages.LISTED);
     }
 
     @Override
     public DataResult<CustomerDto> getByCustomerForIdentityNumber(String identityNumber) {
         Customer customer = customerRepository.findByIdentityNumber(identityNumber).orElseThrow(CustomerNotFoundException::new);
+        log.info(Messages.CUSTOMER_FOR_IDENTITY_NUMBER + " " + customer);
         return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.CUSTOMER_FOR_IDENTITY_NUMBER);
     }
 }

@@ -15,4 +15,7 @@ public class Messages {
     public static final String CREDIT_FOR_IDENTITY_NUMBER = "Kredi kimlik numarası ile bulundu";
     public static final String CREDIT_APPLICATION = "Kredi başvurusu yapıldı";
     public static final String CREDIT_NOT_FOUND = "Kredi bulunamadı";
+
+    // CREDIT SCORE
+    public static final String CREDIT_SCORE_ASSIGNED = "Kredi skoru atandı";
 }

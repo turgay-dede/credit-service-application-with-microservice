@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.turgaydede</groupId>
     <version>1.0-SNAPSHOT</version>
-    <name>demo</name>
+    <name>credit-service</name>
     <description>Demo project for Spring Boot</description>
     <artifactId>credit-service</artifactId>
 

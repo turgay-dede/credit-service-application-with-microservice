@@ -1,7 +1,5 @@
 package com.turgaydede.business.abstracts;
 
-
-import com.turgaydede.entities.Credit;
 import com.turgaydede.entities.dtos.CreditDto;
 import com.turgaydede.entities.dtos.CreditResponseDto;
 import com.turgaydede.entities.dtos.CustomerDto;

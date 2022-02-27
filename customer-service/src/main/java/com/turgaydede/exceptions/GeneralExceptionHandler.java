@@ -33,7 +33,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
                     String errorMessage = error.getDefaultMessage();
                     validationErrors.put(fieldName, errorMessage);
                 });
-
+        log.error(validationErrors);
         return ResponseEntity.badRequest().body(new ErrorResult(validationErrors));
     }
 

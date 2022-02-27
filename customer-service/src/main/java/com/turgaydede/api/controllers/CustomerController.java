@@ -32,7 +32,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.update(customerDto));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getall")
     public ResponseEntity<DataResult<List<CustomerDto>>> getAll() {
         return ResponseEntity.ok(customerService.getAll());
     }

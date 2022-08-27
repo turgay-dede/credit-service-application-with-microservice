@@ -9,10 +9,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
         <module name="common" />
-        <module name="customer-service" />
-        <module name="credit-service" />
         <module name="service-registry" />
         <module name="cloud-gateway" />
+      </profile>
+      <profile name="Annotation profile for innova-senior-project" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.2.Final/mapstruct-processor-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
+        </processorPath>
+        <module name="credit-service" />
+        <module name="customer-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -3,7 +3,6 @@ package com.turgaydede.business.concreates;
 import com.turgaydede.entities.Customer;
 import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.repositories.CustomerRepository;
-import com.turgaydede.util.converter.CustomerDtoConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,9 +25,6 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerRepository customerRepository;
 
-    @Mock
-    private CustomerDtoConverter customerDtoConverter;
-
     @InjectMocks
     private CustomerServiceImpl customerServiceImpl;
 
@@ -38,11 +34,9 @@ class CustomerServiceImplTest {
         CustomerDto customerDto = generateCustomerDto();
 
         when(customerRepository.save(customer)).thenReturn(customer);
-        when(customerDtoConverter.convert(customer)).thenReturn(customerDto);
 
         CustomerDto result = customerServiceImpl.add(customerDto).getData();
         assertEquals(result, customerDto);
-        verify(customerDtoConverter).convert(customer);
     }
 
     @Test
@@ -99,12 +93,10 @@ class CustomerServiceImplTest {
                 .build();
 
         when(customerRepository.findByIdentityNumber(identityNumber)).thenReturn(Optional.of(customer));
-        when(customerDtoConverter.convert(customer)).thenReturn(customerDto);
 
         CustomerDto result = customerServiceImpl.getByCustomerForIdentityNumber(customer.getIdentityNumber()).getData();
 
         assertEquals(result, customerDto);
-        verify(customerDtoConverter).convert(customer);
         verify(customerRepository).findByIdentityNumber(identityNumber);
     }
 

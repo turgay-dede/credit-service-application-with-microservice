@@ -1,19 +1,19 @@
 package com.turgaydede.entity.dto;
 
 import com.turgaydede.entity.CreditConsent;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreditDto {
     private String id;
-    @NotEmpty(message = "Kimlik numarası boş geçilemez")
     private String identityNumber;
-
     private CreditConsent creditConsent;
-
     private int creditLimit;
 }

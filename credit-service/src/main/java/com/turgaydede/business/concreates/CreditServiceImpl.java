@@ -10,9 +10,9 @@ import com.turgaydede.entity.dto.CreditResponseDto;
 import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.exceptions.CreditNotFoundException;
 import com.turgaydede.feign.customer.CustomerFeignClient;
+import com.turgaydede.mapper.CreditMapper;
+import com.turgaydede.mapper.CreditResponseMapper;
 import com.turgaydede.repositories.CreditRepository;
-import com.turgaydede.util.converter.CreditDtoConverter;
-import com.turgaydede.util.converter.CreditResponseDtoConverter;
 import com.turgaydede.util.constant.Messages;
 import com.turgaydede.util.result.DataResult;
 import com.turgaydede.util.result.SuccessDataResult;
@@ -28,16 +28,16 @@ import java.util.stream.Collectors;
 public class CreditServiceImpl implements CreditService {
     private final CreditRepository creditRepository;
     private final CreditScoreService creditScoreService;
-    private final CreditResponseDtoConverter creditResponseDtoConverter;
-    private final CreditDtoConverter creditDtoConverter;
+    private final CreditResponseMapper creditResponseMapper;
+    private final CreditMapper creditMapper;
     private final CustomerFeignClient feignClient;
 
 
-    public CreditServiceImpl(CreditRepository creditRepository, @Lazy CreditScoreService creditScoreService, CreditResponseDtoConverter creditResponseDtoConverter, CreditDtoConverter creditDtoConverter, CustomerFeignClient feignClient) {
+    public CreditServiceImpl(CreditRepository creditRepository, @Lazy CreditScoreService creditScoreService, CreditResponseMapper creditResponseMapper, CreditMapper creditMapper, CustomerFeignClient feignClient) {
         this.creditRepository = creditRepository;
         this.creditScoreService = creditScoreService;
-        this.creditResponseDtoConverter = creditResponseDtoConverter;
-        this.creditDtoConverter = creditDtoConverter;
+        this.creditResponseMapper = creditResponseMapper;
+        this.creditMapper = creditMapper;
         this.feignClient = feignClient;
     }
 
@@ -51,7 +51,7 @@ public class CreditServiceImpl implements CreditService {
 
         creditRepository.save(credit);
         log.info(Messages.CREDIT_APPLICATION);
-        return new SuccessDataResult<>(creditResponseDtoConverter.convert(credit), Messages.CREDIT_APPLICATION);
+        return new SuccessDataResult<>(creditResponseMapper.getDto(credit), Messages.CREDIT_APPLICATION);
     }
 
 
@@ -60,7 +60,7 @@ public class CreditServiceImpl implements CreditService {
         Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
         creditRepository.delete(credit);
         log.info(Messages.DELETED+" "+ credit);
-        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.DELETED);
+        return new SuccessDataResult<>(creditMapper.getDto(credit), Messages.DELETED);
 
     }
 
@@ -74,21 +74,21 @@ public class CreditServiceImpl implements CreditService {
                 .build();
         creditRepository.save(credit);
         log.info(Messages.UPDATED+" "+ credit);
-        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.UPDATED);
+        return new SuccessDataResult<>(creditMapper.getDto(credit), Messages.UPDATED);
     }
 
     @Override
     public DataResult<List<CreditDto>> getAll() {
         List<Credit> list = creditRepository.findAll();
         log.info(Messages.LISTED);
-        return new SuccessDataResult<>(list.stream().map(creditDtoConverter::convert).collect(Collectors.toList()), Messages.LISTED);
+        return new SuccessDataResult<>(list.stream().map(creditMapper::getDto).collect(Collectors.toList()), Messages.LISTED);
     }
 
     @Override
     public DataResult<CreditDto> getCreditByIdentityNumber(String identityNumber) {
         Credit credit = creditRepository.findCreditByIdentityNumber(identityNumber).orElseThrow(CreditNotFoundException::new);
         log.info(Messages.CREDIT_FOR_IDENTITY_NUMBER+" "+ credit);
-        return new SuccessDataResult<>(creditDtoConverter.convert(credit), Messages.CREDIT_FOR_IDENTITY_NUMBER);
+        return new SuccessDataResult<>(creditMapper.getDto(credit), Messages.CREDIT_FOR_IDENTITY_NUMBER);
     }
 
     private Credit createAccountForCreditScoreAndMonthlyIncome(CreditScore creditScore, CustomerDto customerDto) {

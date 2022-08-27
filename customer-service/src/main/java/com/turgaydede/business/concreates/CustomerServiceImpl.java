@@ -4,8 +4,8 @@ import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.entities.Customer;
 import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.exceptions.CustomerNotFoundException;
+import com.turgaydede.mapper.CustomerMapper;
 import com.turgaydede.repositories.CustomerRepository;
-import com.turgaydede.util.converter.CustomerDtoConverter;
 import com.turgaydede.util.constant.Messages;
 import com.turgaydede.util.result.DataResult;
 import com.turgaydede.util.result.SuccessDataResult;
@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 @Log4j2
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
-    private final CustomerDtoConverter customerDtoConverter;
+    private final CustomerMapper customerMapper;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerDtoConverter customerDtoConverter) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
-        this.customerDtoConverter = customerDtoConverter;
+        this.customerMapper = customerMapper;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepository.save(customer);
         log.info(Messages.ADDED + " " + customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.ADDED);
+        return new SuccessDataResult<>(customerMapper.getDto(customer), Messages.ADDED);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(customerId).orElseThrow(CustomerNotFoundException::new);
         customerRepository.delete(customer);
         log.info(Messages.DELETED + " " + customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.DELETED);
+        return new SuccessDataResult<>(customerMapper.getDto(customer), Messages.DELETED);
     }
 
     @Override
@@ -62,20 +62,20 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepository.save(customer);
         log.info(Messages.UPDATED + " " + customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.UPDATED);
+        return new SuccessDataResult<>(customerMapper.getDto(customer), Messages.UPDATED);
     }
 
     @Override
     public DataResult<List<CustomerDto>> getAll() {
         List<Customer> customers = customerRepository.findAll();
         log.info(Messages.LISTED);
-        return new SuccessDataResult<>(customers.stream().map(customerDtoConverter::convert).collect(Collectors.toList()), Messages.LISTED);
+        return new SuccessDataResult<>(customers.stream().map(customerMapper::getDto).collect(Collectors.toList()), Messages.LISTED);
     }
 
     @Override
     public DataResult<CustomerDto> getByCustomerForIdentityNumber(String identityNumber) {
         Customer customer = customerRepository.findByIdentityNumber(identityNumber).orElseThrow(CustomerNotFoundException::new);
         log.info(Messages.CUSTOMER_FOR_IDENTITY_NUMBER + " " + customer);
-        return new SuccessDataResult<>(customerDtoConverter.convert(customer), Messages.CUSTOMER_FOR_IDENTITY_NUMBER);
+        return new SuccessDataResult<>(customerMapper.getDto(customer), Messages.CUSTOMER_FOR_IDENTITY_NUMBER);
     }
 }

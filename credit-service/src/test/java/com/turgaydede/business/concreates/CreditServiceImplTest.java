@@ -9,8 +9,6 @@ import com.turgaydede.entity.dto.CreditResponseDto;
 import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;
-import com.turgaydede.util.converter.CreditDtoConverter;
-import com.turgaydede.util.converter.CreditResponseDtoConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,8 +28,6 @@ import static org.mockito.Mockito.when;
 class CreditServiceImplTest {
     @Mock private  CreditRepository creditRepository;
     @Mock private  CreditScoreService creditScoreService;
-    @Mock private  CreditResponseDtoConverter creditResponseDtoConverter;
-    @Mock private  CreditDtoConverter creditDtoConverter;
     @Mock private  CustomerFeignClient feignClient;
 
     @InjectMocks
@@ -148,12 +144,10 @@ class CreditServiceImplTest {
                 .build();
 
         when(creditRepository.findCreditByIdentityNumber(identityNumber)).thenReturn(Optional.of(credit));
-        when(creditDtoConverter.convert(credit)).thenReturn(creditDto);
 
         CreditDto result = creditServiceImpl.getCreditByIdentityNumber(credit.getIdentityNumber()).getData();
 
         assertEquals(result, creditDto);
-        verify(creditDtoConverter).convert(credit);
         verify(creditRepository).findCreditByIdentityNumber(identityNumber);
     }
 

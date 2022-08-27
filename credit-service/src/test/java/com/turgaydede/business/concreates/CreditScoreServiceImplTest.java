@@ -1,14 +1,11 @@
 package com.turgaydede.business.concreates;
 
-import com.turgaydede.entities.CreditScore;
+import com.turgaydede.entity.CreditScore;
 import com.turgaydede.repositories.CreditScoreRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 

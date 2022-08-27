@@ -1,33 +1,25 @@
 package com.turgaydede.business.concreates;
 
 import com.turgaydede.business.abstracts.CreditScoreService;
-import com.turgaydede.entities.Credit;
-import com.turgaydede.entities.CreditConsent;
-import com.turgaydede.entities.CreditScore;
-import com.turgaydede.entities.dtos.CreditDto;
-import com.turgaydede.entities.dtos.CreditResponseDto;
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.entity.Credit;
+import com.turgaydede.entity.CreditConsent;
+import com.turgaydede.entity.CreditScore;
+import com.turgaydede.entity.dto.CreditDto;
+import com.turgaydede.entity.dto.CreditResponseDto;
+import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.feign.customer.CustomerFeignClient;
 import com.turgaydede.repositories.CreditRepository;
-import com.turgaydede.repositories.CreditScoreRepository;
 import com.turgaydede.util.converter.CreditDtoConverter;
 import com.turgaydede.util.converter.CreditResponseDtoConverter;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

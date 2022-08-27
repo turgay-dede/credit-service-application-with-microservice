@@ -3,25 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.turgaydede</groupId>
-    <version>1.0-SNAPSHOT</version>
-    <name>credit-service</name>
-    <description>Demo project for Spring Boot</description>
-    <artifactId>credit-service</artifactId>
-
-    <properties>
-        <java.version>11</java.version>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
-    </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>credit-service</artifactId>
+
+    <properties>
+        <java.version>18</java.version>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <!--        validation-->
@@ -68,8 +63,12 @@
         </dependency>
         <dependency>
             <groupId>com.turgaydede</groupId>
-            <artifactId>common-service</artifactId>
+            <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
     </dependencies>
 
@@ -78,7 +77,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>2021.0.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,6 +100,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

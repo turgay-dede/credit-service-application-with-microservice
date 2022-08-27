@@ -1,4 +1,4 @@
-package com.turgaydede.entities;
+package com.turgaydede.entity;
 
 public enum CreditConsent {
     CONFIRM,

@@ -1,4 +1,4 @@
-package com.turgaydede.entities;
+package com.turgaydede.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

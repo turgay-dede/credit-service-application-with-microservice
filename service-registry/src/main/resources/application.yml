@@ -1,14 +1,5 @@
-server:
-  port: 8761
-
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-
-logging:
-  file:
-    name: log/eureka.log
-
-  level:
-    root: info
+spring:
+  application:
+    name: service-registry
+  config:
+    import: optional:configserver:http://localhost:8888

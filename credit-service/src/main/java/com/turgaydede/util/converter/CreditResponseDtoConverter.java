@@ -1,7 +1,7 @@
 package com.turgaydede.util.converter;
 
-import com.turgaydede.entities.Credit;
-import com.turgaydede.entities.dtos.CreditResponseDto;
+import com.turgaydede.entity.Credit;
+import com.turgaydede.entity.dto.CreditResponseDto;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

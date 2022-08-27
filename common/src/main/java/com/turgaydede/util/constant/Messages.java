@@ -1,4 +1,4 @@
-package com.turgaydede.constants;
+package com.turgaydede.util.constant;
 
 public class Messages {
     //  COMMON

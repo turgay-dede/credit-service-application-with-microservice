@@ -1,4 +1,4 @@
-package com.turgaydede.entities.dtos;
+package com.turgaydede.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,9 @@
 package com.turgaydede.api.controllers;
 
 import com.turgaydede.business.abstracts.CreditService;
-import com.turgaydede.entities.Credit;
-import com.turgaydede.entities.dtos.CreditDto;
-import com.turgaydede.entities.dtos.CreditResponseDto;
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.entity.dto.CreditDto;
+import com.turgaydede.entity.dto.CreditResponseDto;
+import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.util.result.DataResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

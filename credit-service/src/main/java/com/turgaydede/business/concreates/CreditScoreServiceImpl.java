@@ -1,9 +1,9 @@
 package com.turgaydede.business.concreates;
 
 import com.turgaydede.business.abstracts.CreditScoreService;
-import com.turgaydede.constants.Messages;
-import com.turgaydede.entities.CreditScore;
+import com.turgaydede.entity.CreditScore;
 import com.turgaydede.repositories.CreditScoreRepository;
+import com.turgaydede.util.constant.Messages;
 import com.turgaydede.util.result.DataResult;
 import com.turgaydede.util.result.SuccessDataResult;
 import lombok.extern.log4j.Log4j2;

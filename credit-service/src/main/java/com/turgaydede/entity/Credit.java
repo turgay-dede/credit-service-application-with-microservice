@@ -1,6 +1,6 @@
-package com.turgaydede.entities;
+package com.turgaydede.entity;
 
-import com.turgaydede.entities.dtos.CustomerDto;
+import com.turgaydede.entity.dto.CustomerDto;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

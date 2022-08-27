@@ -7,18 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="common-service" />
+        <module name="config-server" />
+        <module name="common" />
         <module name="customer-service" />
         <module name="credit-service" />
         <module name="service-registry" />
         <module name="cloud-gateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common-service" target="18" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloud-gateway" options="-parameters" />
       <module name="common-service" options="" />
+      <module name="config-server" options="-parameters" />
       <module name="credit-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="service-registry" options="-parameters" />

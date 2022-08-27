@@ -1,6 +1,6 @@
 package com.turgaydede.util.result;
 
-public class SuccessDataResult<T> extends DataResult<T>{
+public class SuccessDataResult<T> extends DataResult<T> {
 
     public SuccessDataResult(T data,String message) {
         super(true, data, message);

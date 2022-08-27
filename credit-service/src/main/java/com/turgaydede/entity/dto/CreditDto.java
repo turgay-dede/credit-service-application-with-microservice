@@ -1,6 +1,6 @@
-package com.turgaydede.entities.dtos;
+package com.turgaydede.entity.dto;
 
-import com.turgaydede.entities.CreditConsent;
+import com.turgaydede.entity.CreditConsent;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-cloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:/Users/Hp/Projeler/credit-service-application-with-microservice/local-config-repo
+          default-label: main
+server:
+  port: 8888

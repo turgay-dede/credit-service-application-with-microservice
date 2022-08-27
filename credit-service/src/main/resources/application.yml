@@ -1,33 +1,5 @@
-
-server:
-  port: 8082
-
 spring:
-  data:
-    mongodb:
-      uri: mongodb://127.0.0.1:27017/innovabankdb?ssl=false
   application:
-    name: CREDIT-SERVICE
-
-logging:
-  file:
-    name: log/credit.log
-
-  level:
-    root: info
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    hostname: localhost
-
-
-
-
-
-
-
+     name: credit-service
+  config:
+    import: optional:configserver:http://localhost:8888

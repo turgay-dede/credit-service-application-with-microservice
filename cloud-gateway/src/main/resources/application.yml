@@ -1,5 +1,5 @@
 spring:
   application:
-    name: cloud-gateway
+    name: ${APPNAME_API_GATEWAY:cloud-gateway}
   config:
     import: optional:configserver:http://localhost:8888

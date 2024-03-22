@@ -1,0 +1,49 @@
+server:
+  port: ${API_GATEWAY_PORT:8084}
+
+spring:
+  application:
+    name: ${APPNAME_API_GATEWAY:cloud-gateway}
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      routes:
+        - id: credit-service
+          uri: lb://credit-service
+          predicates:
+            - Path=/rest/credits/**
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/rest/customers/**
+
+eureka:
+  instance:
+    hostname: ${API_GATEWAY_HOST:localhost}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${SERVICE_DISCOVERY_HOST:localhost}:${SERVICE_DISCOVERY_PORT:8761}/eureka
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 30s
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0

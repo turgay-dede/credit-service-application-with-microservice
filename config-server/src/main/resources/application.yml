@@ -1,11 +1,18 @@
-spring:
-  application:
-    name: spring-cloud-config-server
-  cloud:
-    config:
-      server:
-        git:
-          uri: file:///C:/Users/Hp/Projeler/credit-service-application-with-microservice/local-config-repo
-          default-label: main
 server:
   port: 8888
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations: classpath:/config/
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka

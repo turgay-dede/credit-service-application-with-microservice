@@ -4,6 +4,7 @@ import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.util.result.DataResult;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,26 +19,31 @@ public class CustomerController {
         this.customerService = customerService;
     }
     @PostMapping("/add")
+    @PreAuthorize("hasRole('customer_client_admin')")
     public ResponseEntity<DataResult<CustomerDto>> add(@Valid @RequestBody CustomerDto customerDto) {
         return ResponseEntity.ok(customerService.add(customerDto));
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('customer_client_admin')")
     public ResponseEntity<DataResult<CustomerDto>> delete(@RequestParam int customerId) {
         return ResponseEntity.ok(customerService.delete(customerId));
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('customer_client_admin')")
     public ResponseEntity<DataResult<CustomerDto>> update(@Valid @RequestBody CustomerDto customerDto) {
         return ResponseEntity.ok(customerService.update(customerDto));
     }
 
     @GetMapping("/getall")
+    @PreAuthorize("hasRole('customer_client_user')")
     public ResponseEntity<DataResult<List<CustomerDto>>> getAll() {
         return ResponseEntity.ok(customerService.getAll());
     }
 
     @GetMapping("/get/customer/identity-number")
+    @PreAuthorize("hasRole('customer_client_user')")
     public ResponseEntity<DataResult<CustomerDto>> getByCustomerForIdentityNumber(@RequestParam String identityNumber) {
         return ResponseEntity.ok(customerService.getByCustomerForIdentityNumber(identityNumber));
     }

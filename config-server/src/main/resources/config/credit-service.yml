@@ -2,3 +2,17 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/credits
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/credit-service-realm
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+
+jwt:
+  auth:
+    converter:
+      resource-id: credit-service-client
+      principle-attribute: preferred_username

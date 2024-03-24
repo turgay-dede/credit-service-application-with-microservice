@@ -6,6 +6,7 @@ import com.turgaydede.entity.dto.CreditResponseDto;
 import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.util.result.DataResult;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,26 +23,31 @@ public class CreditController {
     }
 
     @PostMapping("/credit-application")
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseEntity<DataResult<CreditResponseDto>> creditApplication(@Valid @RequestBody CustomerDto customerDto){
         return ResponseEntity.ok(creditService.creditApplication(customerDto));
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasRole('client_admin')")
     public  ResponseEntity<DataResult<CreditDto>> update(@Valid @RequestBody CreditDto creditDto){
         return ResponseEntity.ok(creditService.update(creditDto));
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('client_admin')")
     public  ResponseEntity<DataResult<CreditDto>> delete(@RequestParam String identityNumber){
         return ResponseEntity.ok(creditService.delete(identityNumber));
     }
 
     @GetMapping("/getall")
+    @PreAuthorize("hasRole('client_user')")
     public  ResponseEntity<DataResult<List<CreditDto>>> getAll(){
         return ResponseEntity.ok(creditService.getAll());
     }
 
     @GetMapping("/get/credit/identity-number")
+    @PreAuthorize("hasRole('client_user')")
     public  ResponseEntity<DataResult<CreditDto>> getCreditByIdentityNumber(@RequestParam String identityNumber){
         return ResponseEntity.ok(creditService.getCreditByIdentityNumber(identityNumber));
     }

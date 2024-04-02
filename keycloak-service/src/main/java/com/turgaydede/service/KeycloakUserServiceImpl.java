@@ -3,13 +3,14 @@ package com.turgaydede.service;
 import com.turgaydede.dto.UserRegistrationRequest;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.*;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -68,10 +69,16 @@ public class KeycloakUserServiceImpl implements KeycloakUserService{
     }
 
     @Override
-    public UserRepresentation getUserById(String userId) {
+    public UserRepresentation getUserById(String username) {
+        UsersResource usersResource = getUsersResource();
+        List<UserRepresentation> userRepresentationList = usersResource.search(username);
+        return  userRepresentationList.stream().findFirst().get();
+    }
 
-
-        return  getUsersResource().get(userId).toRepresentation();
+    @Override
+    public List<UserRepresentation> getAll() {
+        UsersResource usersResource = getUsersResource();
+        return  usersResource.list();
     }
 
     @Override
@@ -82,24 +89,24 @@ public class KeycloakUserServiceImpl implements KeycloakUserService{
 
 
     @Override
-    public void emailVerification(String userId){
+    public void emailVerification(String username){
 
         UsersResource usersResource = getUsersResource();
 //        usersResource.get(userId).sendVerifyEmail();
     }
 
-    public UserResource getUserResource(String userId){
+    public UserResource getUserResource(String username){
         UsersResource usersResource = getUsersResource();
-        return usersResource.get(userId);
+        return usersResource.get(username);
     }
 
     @Override
-    public void updatePassword(String userId) {
+    public void updatePassword(String username) {
 
-        UserResource userResource = getUserResource(userId);
+        UserResource userResource = getUserResource(username);
         List<String> actions= new ArrayList<>();
         actions.add("UPDATE_PASSWORD");
-        userResource.executeActionsEmail(actions);
+//        userResource.executeActionsEmail(actions);
 
     }
 }

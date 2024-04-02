@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -27,8 +28,13 @@ public class KeycloakController {
     @GetMapping
     @PreAuthorize("hasRole('admin_auth_client') or hasRole('user_auth_client')")
     public UserRepresentation getUser(Principal principal) {
-
         return userEntityService.getUserById(principal.getName());
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('admin_auth_client') or hasRole('user_auth_client')")
+    public List<UserRepresentation> getAll() {
+        return userEntityService.getAll();
     }
 
     @DeleteMapping("/{userId}")

@@ -15,10 +15,20 @@ spring:
           uri: lb://credit-service
           predicates:
             - Path=/rest/credits/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CREDIT-SERVICE
+                fallbackuri: forward:/creditServiceFallBack
         - id: customer-service
           uri: lb://customer-service
           predicates:
             - Path=/rest/customers/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CUSTOMER-SERVICE
+                fallbackuri: forward:/customerServiceFallBack
 
 eureka:
   instance:

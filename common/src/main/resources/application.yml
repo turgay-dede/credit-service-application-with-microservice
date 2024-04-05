@@ -1,0 +1,8 @@
+keycloak:
+  realm: spring-boot-code
+  domain: localhost:9090
+  adminClientId: admin-cli
+  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+  client: auth-service-client
+  urls:
+    auth: http://${keycloak.domain}

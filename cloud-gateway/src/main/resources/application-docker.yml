@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ${APPNAME_API_GATEWAY:cloud-gateway}
+  config:
+    import: optional:configserver:http://${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:8888}

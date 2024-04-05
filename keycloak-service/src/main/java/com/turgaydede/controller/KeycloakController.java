@@ -19,7 +19,7 @@ public class KeycloakController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('admin_auth_client')")
+    @PreAuthorize("hasRole('admin_auth_client') or hasRole('user_auth_client')")
     public UserRegistrationRequest createUser(@RequestBody UserRegistrationRequest userRegistrationRecord) {
 
         return userEntityService.createUser(userRegistrationRecord);

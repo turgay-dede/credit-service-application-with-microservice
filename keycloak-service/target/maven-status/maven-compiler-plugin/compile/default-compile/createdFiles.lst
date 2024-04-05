@@ -1,0 +1,8 @@
+com\turgaydede\service\KeycloakUserServiceImpl.class
+com\turgaydede\controller\KeycloakController.class
+com\turgaydede\config\KeycloakConfig.class
+com\turgaydede\dto\UserRegistrationRequest.class
+com\turgaydede\security\JwtAuthConverter.class
+com\turgaydede\security\WebSecurityConfig.class
+com\turgaydede\KeycloakApplication.class
+com\turgaydede\service\KeycloakUserService.class

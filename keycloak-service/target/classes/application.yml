@@ -1,0 +1,138 @@
+##spring:
+##  application:
+##    name: keycloak-service
+##  security:
+##    oauth2:
+##      resourceserver:
+##        jwt:
+##          issuer-uri: http://localhost:9090/realms/spring-boot-code
+##          jwk-set-uri: http://localhost:9090/realms/spring-boot-code/protocol/openid-connect/certs
+###  config:
+###    import: optional:configserver:http://${CONFIG_SERVER_HOST:localhost}:${CONFIG_SERVER_PORT:8888}
+##  datasource:
+##    url: jdbc:postgresql://localhost:5433/keycloak_db
+##    username: postgres
+##    password: password
+##    driver-class-name: org.postgresql.Driver
+##  jpa:
+##    hibernate:
+##      ddl-auto: update
+##    show-sql: true
+##    properties:
+##      hibernate:
+##        dialect: org.hibernate.dialect.PostgreSQLDialect
+##  profiles:
+##    active: production
+##    security:
+##      oauth2:
+##        resourceserver:
+##          jwt:
+##            issuer-uri: http://${keycloak.domain}/realms/${keycloak.realm}
+##jwt:
+##  auth:
+##    converter:
+##      resource-id: auth-service-client
+##      principle-attribute: preferred_username
+##
+##keycloak:
+##  realm: spring-boot-code
+##  domain: localhost:9090
+##  adminClientId: admin-cli
+##  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+##  client: auth-service-client
+##  urls:
+##    auth: http://${keycloak.domain}
+##
+####keycloak:
+####  auth-server-url: http://localhost:9090
+####  realm: spring-boot-microservices-realm
+####  resource: auth-service-client
+####  credentials:
+####    secret: 17JuFaU2g62JIqe63ymUuyMJqvCIoB6E
+####  principal-attribute: preferred_username
+####
+####keycloak:
+####  realm: spring-boot-microservices-realm
+####  domain: localhost:9090
+####  adminClientId: admin-cli
+####  adminClientSecret: 17JuFaU2g62JIqe63ymUuyMJqvCIoB6E
+####  client: auth-service-client
+####  urls:
+####    auth: http://${keycloak.domain}
+###keycloak:
+###  realm: spring-boot-code
+###  domain: localhost:9090
+###  adminClientId: admin-cli
+###  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+###  client: auth-service-client
+###  urls:
+###    auth: http://localhost:9090
+###jwt:
+###  auth:
+###    converter:
+###      resource-id: auth-service-client
+###      principle-attribute: preferred_username
+##
+#spring:
+#  profiles:
+#    active: production
+#  datasource:
+#      url: jdbc:postgresql://localhost:5433/keycloak_db
+#      username: postgres
+#      password: password
+#      driver-class-name: org.postgresql.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://${keycloak.domain}/realms/${keycloak.realm}
+#jwt:
+#  auth:
+#    converter:
+#      resource-id: auth-service-client
+#      principle-attribute: preferred_username
+#
+#keycloak:
+#  realm: spring-boot-code
+#  domain: localhost:9090
+#  adminClientId: admin-cli
+#  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+#  client: auth-service-client
+#  urls:
+#    auth: http://${keycloak.domain}
+server:
+  port: 9095
+  servlet:
+    context-path: /api/v1
+
+
+spring:
+  profiles:
+    active: production
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${keycloak.domain}/realms/${keycloak.realm}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+jwt:
+  auth:
+    converter:
+      resource-id: auth-service-client
+      principle-attribute: preferred_username
+
+keycloak:
+  realm: spring-boot-code
+  domain: localhost:9090
+  adminClientId: admin-cli
+  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+  client: auth-service-client
+  urls:
+    auth: http://${keycloak.domain}

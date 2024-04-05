@@ -15,20 +15,20 @@ spring:
           uri: lb://credit-service
           predicates:
             - Path=/rest/credits/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: CREDIT-SERVICE
-                fallbackuri: forward:/creditServiceFallBack
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: CREDIT-SERVICE
+#                fallbackuri: forward:/creditServiceFallBack
         - id: customer-service
           uri: lb://customer-service
           predicates:
             - Path=/rest/customers/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: CUSTOMER-SERVICE
-                fallbackuri: forward:/customerServiceFallBack
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: CUSTOMER-SERVICE
+#                fallbackuri: forward:/customerServiceFallBack
 
 eureka:
   instance:
@@ -39,21 +39,21 @@ eureka:
     service-url:
       defaultZone: http://${SERVICE_DISCOVERY_HOST:localhost}:${SERVICE_DISCOVERY_PORT:8761}/eureka
 
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        registerHealthIndicator: true
-        slidingWindowSize: 5
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10s
-        permittedNumberOfCallsInHalfOpenState: 2
-  timelimiter:
-    configs:
-      default:
-        timeoutDuration: 30s
-
-management:
-  tracing:
-    sampling:
-      probability: 1.0
+#resilience4j:
+#  circuitbreaker:
+#    configs:
+#      default:
+#        registerHealthIndicator: true
+#        slidingWindowSize: 5
+#        failureRateThreshold: 50
+#        waitDurationInOpenState: 10s
+#        permittedNumberOfCallsInHalfOpenState: 2
+#  timelimiter:
+#    configs:
+#      default:
+#        timeoutDuration: 30s
+#
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0

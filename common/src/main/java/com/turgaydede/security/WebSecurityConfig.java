@@ -1,11 +1,14 @@
 package com.turgaydede.security;
 
+import com.turgaydede.security.JwtAuthConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -30,7 +33,8 @@ public class WebSecurityConfig {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/webjars/**",
-            "/api-docs/**"
+            "/api-docs/**",
+            "/actuator/**"
     );
 
     @Bean
@@ -38,7 +42,7 @@ public class WebSecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(PERMITTED_PATHS.toArray(new String[0])).permitAll()
+                        .requestMatchers(PERMITTED_PATHS.toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

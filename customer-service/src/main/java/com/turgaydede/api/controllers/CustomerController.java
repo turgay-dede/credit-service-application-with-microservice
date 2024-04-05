@@ -3,11 +3,11 @@ package com.turgaydede.api.controllers;
 import com.turgaydede.business.abstracts.CustomerService;
 import com.turgaydede.entities.dtos.CustomerDto;
 import com.turgaydede.util.result.DataResult;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

@@ -15,7 +15,7 @@
         <module>cloud-gateway</module>
         <module>common</module>
         <module>config-server</module>
-        <module>keycloak-service</module>
+        <module>auth-service</module>
     </modules>
 
     <properties>

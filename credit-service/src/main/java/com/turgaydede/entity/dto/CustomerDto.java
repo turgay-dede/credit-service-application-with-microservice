@@ -1,12 +1,10 @@
 package com.turgaydede.entity.dto;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
 
 @Data
 @EqualsAndHashCode

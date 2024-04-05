@@ -1,0 +1,24 @@
+server:
+  port: 9095
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://${keycloak.domain}/realms/${keycloak.realm}
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+jwt:
+  auth:
+    converter:
+      resource-id: auth-service-client
+      principle-attribute: preferred_username
+
+keycloak:
+  realm: spring-boot-code
+  domain: localhost:9090
+  adminClientId: admin-cli
+  adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
+  client: auth-service-client
+  urls:
+    auth: http://${keycloak.domain}

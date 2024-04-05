@@ -6,7 +6,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;
 
-public interface KeycloakUserService {
+public interface AuthService {
 
     UserRegistrationRequest createUser(UserRegistrationRequest userRegistrationRecord);
     UserRepresentation getUserById(String userId);

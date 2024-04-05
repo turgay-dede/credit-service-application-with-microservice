@@ -1,4 +1,4 @@
-package com.turgaydede.config;
+package com.turgaydede.config;//package com.turgaydede.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,7 +25,7 @@ public class SwaggerCustomConfig {
                         addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
-                .info(new Info().title("CREDIT SERVICE APPLICATION REST API")
+                .info(new Info().title("CUSTOMER SERVICE APPLICATION REST API")
                         .description("Spring Boot Microservice API")
                         .version("1.0").contact(new Contact().name("DEDE")
                                 .email( "www.turgaydede.com").url("turgaydede@gmail.com"))

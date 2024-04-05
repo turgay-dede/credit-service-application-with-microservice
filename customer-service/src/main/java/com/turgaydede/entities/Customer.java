@@ -1,9 +1,7 @@
 package com.turgaydede.entities;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 @Data

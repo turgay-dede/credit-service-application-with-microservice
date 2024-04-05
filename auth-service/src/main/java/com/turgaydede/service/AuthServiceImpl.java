@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class KeycloakUserServiceImpl implements KeycloakUserService{
+public class AuthServiceImpl implements AuthService {
 
     @Value("${keycloak.realm}")
     private String realm;
@@ -46,7 +46,6 @@ public class KeycloakUserServiceImpl implements KeycloakUserService{
         user.setCredentials(list);
 
         UsersResource usersResource = getUsersResource();
-
         Response response = usersResource.create(user);
 
         if(Objects.equals(201,response.getStatus())){

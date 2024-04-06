@@ -112,3 +112,12 @@ http://localhost:8082/rest/credits veya http://localhost:9191/rest/credits
 | :-------- | :--------------   | :---------------------------------------------------------------|
 |   GET     | `identityNumber ` |   /get/credit/identity-number?identityNumber=identityNumber     |
 
+### Keycloak
+realm-export.json
+````dockerfile
+docker exec -it credit-service-application-with-microservice-keycloak-1 sh
+cd /opt/keycloak/bin
+./kc.sh export --file /tmp/keycloak.json
+cd /tmp
+cat keycloak.json
+````

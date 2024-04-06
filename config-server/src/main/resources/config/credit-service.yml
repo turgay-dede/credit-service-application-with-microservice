@@ -10,7 +10,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9090/realms/spring-boot-code
+          issuer-uri: http://localhost:9090/realms/${keycloak.realm}
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 
@@ -21,7 +21,7 @@ jwt:
       principle-attribute: preferred_username
 
 keycloak:
-  realm: spring-boot-code
+  realm: credit-service-application-realm
   domain: localhost:9090
   adminClientId: admin-cli
   adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47

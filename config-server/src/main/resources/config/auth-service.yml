@@ -15,7 +15,7 @@ jwt:
       principle-attribute: preferred_username
 
 keycloak:
-  realm: spring-boot-code
+  realm: credit-service-application-realm
   domain: localhost:9090
   adminClientId: admin-cli
   adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47

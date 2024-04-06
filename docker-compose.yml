@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  postgres-keycloak:
+    image: postgres:14
+    ports:
+      - "5433:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak_db
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql/data
+    networks:
+      - keycloak-and-postgres-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.4
+    command: [ "start-dev", "--import-realm" ]
+    ports:
+      - 9090:8080
+    restart: unless-stopped
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      KC_DB_URL: jdbc:postgresql://postgres-keycloak:5432/keycloak_db
+      KC_FEATURES: token-exchange,admin-fine-grained-authz
+      KC_HOSTNAME: localhost
+    depends_on:
+      - postgres-keycloak
+    volumes:
+      - ./realms/:/opt/keycloak/data/import/
+    networks:
+      - keycloak-and-postgres-network
+
+
+networks:
+  keycloak-and-postgres-network:
+  my_custom_network:
+    driver: bridge
+
+
+volumes:
+  keycloak-postgres-data:
+  postgres_customer:
+  mongo_data:
+

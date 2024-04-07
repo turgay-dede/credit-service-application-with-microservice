@@ -1,18 +1,9 @@
 package com.turgaydede.service;
 
-import com.turgaydede.dto.UserRegistrationRequest;
-import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.representations.idm.UserRepresentation;
-
-import java.util.List;
+import com.turgaydede.dto.TokenRecordRequest;
+import com.turgaydede.dto.TokenResponse;
 
 public interface AuthService {
-
-    UserRegistrationRequest createUser(UserRegistrationRequest userRegistrationRecord);
-    UserRepresentation getUserById(String userId);
-    List<UserRepresentation> getAll();
-    void deleteUserById(String userId);
-    void emailVerification(String userId);
-    UserResource getUserResource(String userId);
-    void updatePassword(String userId);
+    TokenResponse getToken(TokenRecordRequest request);
+    TokenResponse getTokenWithRefreshToken(String refreshToken);
 }

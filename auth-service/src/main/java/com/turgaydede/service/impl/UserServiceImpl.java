@@ -1,6 +1,7 @@
-package com.turgaydede.service;
+package com.turgaydede.service.impl;
 
 import com.turgaydede.dto.UserRegistrationRequest;
+import com.turgaydede.service.UserService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class UserServiceImpl implements UserService {
 
     @Value("${keycloak.realm}")
     private String realm;

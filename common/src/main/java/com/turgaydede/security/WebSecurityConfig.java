@@ -34,6 +34,7 @@ public class WebSecurityConfig {
             "/swagger-ui.html",
             "/webjars/**",
             "/api-docs/**",
+            "/auth/**",
             "/actuator/**"
     );
 

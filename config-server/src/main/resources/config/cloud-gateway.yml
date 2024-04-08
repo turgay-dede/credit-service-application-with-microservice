@@ -1,9 +1,9 @@
 server:
-  port: ${API_GATEWAY_PORT:8084}
+  port: ${CLOUD_GATEWAY_PORT:8084}
 
 spring:
   application:
-    name: ${APPNAME_API_GATEWAY:cloud-gateway}
+    name: cloud-gateway
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
@@ -37,7 +37,16 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://${SERVICE_DISCOVERY_HOST:localhost}:${SERVICE_DISCOVERY_PORT:8761}/eureka
+      defaultZone: http://${SERVICE_REGISTRY_HOST:localhost}:${SERVICE_REGISTRY_PORT:8761}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 #resilience4j:
 #  circuitbreaker:

@@ -3,10 +3,10 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
   instance:
-    hostname: ${SERVICE_DISCOVERY_HOST:localhost}
+    hostname: ${SERVICE_REGISTRY_HOST:localhost}
 
 server:
-  port: ${SERVICE_DISCOVERY_PORT:8761}
+  port: ${SERVICE_REGISTRY_PORT:8761}
 spring:
   application:
-    name: ${APPNAME_SERVICE_DISCOVERY:service-registry}
+    name: service-registry

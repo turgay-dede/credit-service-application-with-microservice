@@ -1,10 +1,59 @@
 version: '3.9'
 services:
+  config-server:
+    container_name: config-server
+    build:
+      context: /config-server
+      dockerfile: /Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - SERVICE_REGISTRY_HOST=service-registry
+      - SERVICE_REGISTRY_PORT=8761
+    networks:
+      - spring
+
+  cloud-gateway:
+    container_name: cloud-gateway
+    build:
+      context: /cloud-gateway
+      dockerfile: /Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - CLOUD_GATEWAY_HOST=cloud-gateway
+      - CLOUD_GATEWAY_PORT=8084
+      - SERVICE_REGISTRY_HOST=service-registry
+      - SERVICE_REGISTRY_PORT=8761
+      - CONFIG_SERVER_HOST=config-server
+      - CONFIG_SERVER_PORT=8888
+    depends_on:
+      - config-server
+    networks:
+      - spring
+
+  service-registry:
+    container_name: service-registry
+    build:
+      context: /service-registry
+      dockerfile: /Dockerfile
+    ports:
+      - "8761:8761"
+    environment:
+      - SERVICE_REGISTRY_HOST=service-registry
+      - SERVICE_REGISTRY_PORT=8761
+      - CONFIG_SERVER_HOST=config-server
+      - CONFIG_SERVER_PORT=8888
+    depends_on:
+      - config-server
+    networks:
+      - spring
+
   postgres-keycloak:
+    container_name: postgres-keycloak
     image: postgres:14
     ports:
       - "5433:5432"
-    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
@@ -13,13 +62,14 @@ services:
       - keycloak-postgres-data:/var/lib/postgresql/data
     networks:
       - keycloak-and-postgres-network
+    restart: unless-stopped
 
   keycloak:
+    container_name: keycloak
     image: quay.io/keycloak/keycloak:22.0.4
     command: [ "start-dev", "--import-realm" ]
     ports:
-      - 9090:8080
-    restart: unless-stopped
+      - "9090:8080"
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -35,16 +85,132 @@ services:
       - ./realms/:/opt/keycloak/data/import/
     networks:
       - keycloak-and-postgres-network
+    restart: unless-stopped
 
+  postgres-customer:
+    container_name: postgres-customer
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: customers
+    volumes:
+      - customer-postgres-data:/var/lib/postgresql/data
+    networks:
+      - customer-and-postgres-network
+    restart: unless-stopped
+
+  customer-service:
+    container_name: customer-service
+    build:
+      context: /customer-service
+      dockerfile: /Dockerfile
+    #    volumes:
+    #      - ./wait-for-it.sh/:/usr/share/wait-for-it.sh
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-customer:5432/customers
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - CUSTOMER_SERVICE_PORT=8082
+      - POSTGRES_CUSTOMER_HOST=postgres-customer
+      - POSTGRES_CUSTOMER_PORT=5432
+      - CUSTOMER_SERVICE_HOST=customer-service
+      - SERVICE_REGISTRY_HOST=service-registry
+      - SERVICE_REGISTRY_PORT=8761
+      - CONFIG_SERVER_HOST= config-server
+      - CONFIG_SERVER_PORT=8888
+      - KEYCLOAK_HOST=keycloak
+      - KEYCLOAK_PORT=9090
+    depends_on:
+      - config-server
+      - service-registry
+      - cloud-gateway
+      - postgres-customer
+    networks:
+      - spring
+      - customer-and-postgres-network
+
+  mongo-credit:
+    container_name: mongo-credit
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - credit-mongo-data:/data/db
+    networks:
+      - credit-and-mongo-network
+    restart: unless-stopped
+
+  credit-service:
+    container_name: credit-service
+    build:
+      context: /credit-service
+      dockerfile: /Dockerfile
+    #    volumes:
+    #      - ./wait-for-it.sh/:/usr/share/wait-for-it.sh
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=mongodb://mongo-credit:27017/credits
+      - SPRING_DATASOURCE_USERNAME=mongoadmin
+      - SPRING_DATASOURCE_PASSWORD=secret
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - CUSTOMER_SERVICE_PORT=8081
+      - MONGO_CREDIT_HOST=mongo-credit
+      - MONGO_CREDIT_PORT=27017
+      - CUSTOMER_SERVICE_HOST=customer-service
+      - SERVICE_REGISTRY_HOST=service-registry
+      - SERVICE_REGISTRY_PORT=8761
+      - CONFIG_SERVER_HOST= config-server
+      - CONFIG_SERVER_PORT=8888
+      - KEYCLOAK_HOST=keycloak
+      - KEYCLOAK_PORT=9090
+    depends_on:
+      - config-server
+      - service-registry
+      - cloud-gateway
+      - mongo-credit
+    networks:
+      - spring
+      - credit-and-mongo-network
+  auth-service:
+    container_name: auth-service
+    build:
+      context: /auth-service
+      dockerfile: /Dockerfile
+    #    volumes:
+    #      - ./wait-for-it.sh/:/usr/share/wait-for-it.sh
+    ports:
+      - "9095:9095"
+    environment:
+      - CONFIG_SERVER_HOST= config-server
+      - CONFIG_SERVER_PORT=8888
+      - KEYCLOAK_HOST=keycloak
+      - KEYCLOAK_PORT=9090
+    depends_on:
+      - config-server
+      - service-registry
+      - cloud-gateway
+    networks:
+      - spring
 
 networks:
+  spring:
   keycloak-and-postgres-network:
-  my_custom_network:
-    driver: bridge
-
+  customer-and-postgres-network:
+  credit-and-mongo-network:
 
 volumes:
   keycloak-postgres-data:
-  postgres_customer:
-  mongo_data:
+  customer-postgres-data:
+  credit-and-mongo-network:
+  credit-mongo-data:
 

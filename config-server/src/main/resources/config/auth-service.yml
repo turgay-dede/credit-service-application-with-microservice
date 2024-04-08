@@ -6,7 +6,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://${keycloak.domain}/realms/${keycloak.realm}
+          issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:9090}/realms/${keycloak.realm}
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 jwt:
@@ -17,7 +17,7 @@ jwt:
 
 keycloak:
   realm: credit-service-application-realm
-  domain: localhost:9090
+  domain: ${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:9090}
   adminClientId: admin-cli
   adminClientSecret: JB6XOSHxrlgAALs6OQ2NEU3R19cdHm47
   client: auth-service-client

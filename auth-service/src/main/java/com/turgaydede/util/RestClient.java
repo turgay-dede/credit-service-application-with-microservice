@@ -25,24 +25,24 @@ public class RestClient {
         HttpHeaders headers = createHeaders();
         headers.setContentType(mediaType);
         HttpEntity<T> requestHttp = new HttpEntity<>((T) requestBody, headers);
-        return restTemplate.postForEntity(restTemplateRequest.url(), requestHttp, responseType);
+        return restTemplate.postForEntity(restTemplateRequest.getUrl(), requestHttp, responseType);
     }
 
     public <T> ResponseEntity<T> postForEntity(Object requestBody, Class<T> responseType, String token, MediaType mediaType) {
         HttpHeaders headers = createHeaders(token);
         headers.setContentType(mediaType);
         HttpEntity<T> requestHttp = new HttpEntity<>((T) requestBody, headers);
-        return restTemplate.postForEntity(restTemplateRequest.url(), requestHttp, responseType);
+        return restTemplate.postForEntity(restTemplateRequest.getUrl(), requestHttp, responseType);
     }
 
     public <T> T exchange(@Nullable MultiValueMap<Object, Object> formData, Class<T> responseType) {
-        return restTemplate.exchange(restTemplateRequest.url(), HttpMethod.POST, new HttpEntity<>(formData, createHeaders()), responseType).getBody();
+        return restTemplate.exchange(restTemplateRequest.getUrl(), HttpMethod.POST, new HttpEntity<>(formData, createHeaders()), responseType).getBody();
     }
 
 
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        String auth = String.format("%s:%s",restTemplateRequest.username(),restTemplateRequest.password());
+        String auth = String.format("%s:%s",restTemplateRequest.getUsername(),restTemplateRequest.getPassword());
         byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes());
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);

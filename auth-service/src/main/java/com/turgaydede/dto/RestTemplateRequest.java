@@ -1,4 +1,17 @@
 package com.turgaydede.dto;
 
-public record RestTemplateRequest(String url, String username, String password) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RestTemplateRequest {
+
+    private String url;
+    private String username;
+    private String password;
 }

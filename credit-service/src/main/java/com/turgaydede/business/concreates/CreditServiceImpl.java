@@ -81,7 +81,8 @@ public class CreditServiceImpl implements CreditService {
     public DataResult<List<CreditDto>> getAll() {
         List<Credit> list = creditRepository.findAll();
         log.info(Messages.LISTED);
-        return new SuccessDataResult<>(list.stream().map(creditMapper::getDto).collect(Collectors.toList()), Messages.LISTED);
+        List<CreditDto> data = creditMapper.getDtoList(list);
+        return new SuccessDataResult<>(data, Messages.LISTED);
     }
 
     @Override

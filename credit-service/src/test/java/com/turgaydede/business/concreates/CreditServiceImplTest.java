@@ -8,6 +8,7 @@ import com.turgaydede.entity.dto.CreditDto;
 import com.turgaydede.entity.dto.CreditResponseDto;
 import com.turgaydede.entity.dto.CustomerDto;
 import com.turgaydede.feign.customer.CustomerFeignClient;
+import com.turgaydede.mapper.CreditMapper;
 import com.turgaydede.repositories.CreditRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +30,8 @@ class CreditServiceImplTest {
     @Mock private  CreditRepository creditRepository;
     @Mock private  CreditScoreService creditScoreService;
     @Mock private  CustomerFeignClient feignClient;
+
+    @Mock private CreditMapper mapper;
 
     @InjectMocks
     private CreditServiceImpl creditServiceImpl;
@@ -126,7 +129,16 @@ class CreditServiceImplTest {
         creditList.add(credit1);
         creditList.add(credit2);
 
+        List<CreditDto> creditDtoList = new ArrayList<>();
+        CreditDto creditDto1 = generateConfirmCreditDto();
+        CreditDto creditDto2 = generateConfirmCreditDto();
+        creditDtoList.add(creditDto1);
+        creditDtoList.add(creditDto2);
+
         when(creditRepository.findAll()).thenReturn(creditList);
+        when(mapper.getDtoList(creditList)).thenReturn(creditDtoList);
+
+
 
         List<CreditDto> result = creditServiceImpl.getAll().getData();
         assertEquals(creditList.size(), result.size());
@@ -137,13 +149,14 @@ class CreditServiceImplTest {
         String identityNumber = "20000000000";
         CreditDto creditDto = generateConfirmCreditDto();
         Credit credit = Credit.builder()
-                .id("1")
+                .id(1L)
                 .identityNumber("20000000000")
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(10000)
                 .build();
 
         when(creditRepository.findCreditByIdentityNumber(identityNumber)).thenReturn(Optional.of(credit));
+        when(mapper.getDto(credit)).thenReturn(creditDto);
 
         CreditDto result = creditServiceImpl.getCreditByIdentityNumber(credit.getIdentityNumber()).getData();
 
@@ -154,7 +167,7 @@ class CreditServiceImplTest {
 
     private Credit generateConfirmCredit(){
         return Credit.builder()
-                .id("1")
+                .id(1L)
                 .identityNumber("20000000000")
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(10000)
@@ -163,7 +176,7 @@ class CreditServiceImplTest {
 
     private CreditDto generateConfirmCreditDto(){
         return CreditDto.builder()
-                .id("1")
+                .id(1L)
                 .identityNumber("20000000000")
                 .creditConsent(CreditConsent.CONFIRM)
                 .creditLimit(10000)
@@ -172,7 +185,7 @@ class CreditServiceImplTest {
 
     private CreditScore generateCreditScore(){
         return CreditScore.builder()
-                .id("1")
+                .id(1L)
                 .identityNumber("20000000000")
                 .creditScore(100)
                 .build();

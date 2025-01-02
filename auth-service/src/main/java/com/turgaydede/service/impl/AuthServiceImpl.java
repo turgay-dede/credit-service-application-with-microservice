@@ -1,6 +1,6 @@
 package com.turgaydede.service.impl;
 
-import com.turgaydede.dto.TokenRecordRequest;
+import com.turgaydede.dto.TokenRequest;
 import com.turgaydede.dto.TokenResponse;
 import com.turgaydede.util.RestClient;
 import com.turgaydede.dto.RestTemplateRequest;
@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
     private String clientSecret;
 
     @Override
-    public TokenResponse getToken(TokenRecordRequest request) {
+    public TokenResponse getToken(TokenRequest request) {
         MultiValueMap<Object, Object> formData = new LinkedMultiValueMap<>();
         formData.add("username", request.getUsername());
         formData.add("password", request.getPassword());

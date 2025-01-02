@@ -1,7 +1,7 @@
 package com.turgaydede.controller;
 
 import com.turgaydede.dto.RefreshTokenRecordRequest;
-import com.turgaydede.dto.TokenRecordRequest;
+import com.turgaydede.dto.TokenRequest;
 import com.turgaydede.dto.TokenResponse;
 import com.turgaydede.service.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public TokenResponse getToken(@RequestBody TokenRecordRequest request) {
+    public TokenResponse getToken(@RequestBody TokenRequest request) {
         return authService.getToken(request);
     }
 

@@ -1,9 +1,9 @@
 package com.turgaydede.service.impl;
 
-import com.turgaydede.util.RestClient;
-import com.turgaydede.dto.RestTemplateRequest;
 import com.turgaydede.dto.TokenRecordRequest;
 import com.turgaydede.dto.TokenResponse;
+import com.turgaydede.util.RestClient;
+import com.turgaydede.dto.RestTemplateRequest;
 import com.turgaydede.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,12 +29,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenResponse getToken(TokenRecordRequest request) {
         MultiValueMap<Object, Object> formData = new LinkedMultiValueMap<>();
-        formData.add("username", request.username());
-        formData.add("password", request.password());
+        formData.add("username", request.getUsername());
+        formData.add("password", request.getPassword());
         formData.add("grant_type", "password");
         formData.add("client_id", clientId);
 
-        restClient.setRestTemplateRequest(new RestTemplateRequest(tokenUri, request.username(), request.password()));
+        restClient.setRestTemplateRequest(new RestTemplateRequest(tokenUri, request.getUsername(), request.getPassword()));
         return restClient.exchange(formData, TokenResponse.class);
     }
 

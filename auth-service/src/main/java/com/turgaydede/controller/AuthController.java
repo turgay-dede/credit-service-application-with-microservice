@@ -16,7 +16,7 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public TokenResponse getToken(TokenRecordRequest request) {
+    public TokenResponse getToken(@RequestBody TokenRecordRequest request) {
         return authService.getToken(request);
     }
 

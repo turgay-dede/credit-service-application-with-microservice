@@ -98,6 +98,7 @@ services:
       POSTGRES_DB: customers
     volumes:
       - customer-postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - customer-and-postgres-network
     restart: unless-stopped
@@ -115,10 +116,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-customer:5432/customers
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=123456
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - CUSTOMER_SERVICE_PORT=8082
-      - POSTGRES_CUSTOMER_HOST=postgres-customer
-      - POSTGRES_CUSTOMER_PORT=5432
       - CUSTOMER_SERVICE_HOST=customer-service
       - SERVICE_REGISTRY_HOST=service-registry
       - SERVICE_REGISTRY_PORT=8761
@@ -135,20 +133,20 @@ services:
       - spring
       - customer-and-postgres-network
 
-  mongo-credit:
-    container_name: mongo-credit
-    image: mongo
+  postgres-credit:
+    container_name: postgres-credit
+    image: postgres:14
     ports:
-      - "27017:27017"
+      - "5434:5432"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: secret
-      MONGO_INITDB_DATABASE: credits
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: credits
     volumes:
-      - credit-mongo-data:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - credits-postgres-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - credit-and-mongo-network
+      - credits-and-postgres-network
     restart: unless-stopped
 
   credit-service:
@@ -161,14 +159,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - SPRING_DATASOURCE_URL=mongodb://mongo-credit:27017/credits
-      - SPRING_DATASOURCE_USERNAME=mongoadmin
-      - SPRING_DATASOURCE_PASSWORD=secret
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - CUSTOMER_SERVICE_PORT=8081
-      - MONGO_CREDIT_HOST=mongo-credit
-      - MONGO_CREDIT_PORT=27017
-      - CUSTOMER_SERVICE_HOST=customer-service
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-credit:5434/credits
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - CREDIT_SERVICE_PORT=8081
+      - CREDIT_SERVICE_HOST=credit-service
       - SERVICE_REGISTRY_HOST=service-registry
       - SERVICE_REGISTRY_PORT=8761
       - CONFIG_SERVER_HOST= config-server
@@ -179,7 +174,7 @@ services:
       - config-server
       - service-registry
       - cloud-gateway
-      - mongo-credit
+      - postgres-credit
     networks:
       - spring
       - credit-and-mongo-network
@@ -208,11 +203,13 @@ networks:
   spring:
   keycloak-and-postgres-network:
   customer-and-postgres-network:
+  credits-and-postgres-network:
   credit-and-mongo-network:
 
 volumes:
   keycloak-postgres-data:
   customer-postgres-data:
+  credits-postgres-data:
   credit-and-mongo-network:
   credit-mongo-data:
 

@@ -1,7 +1,5 @@
 package com.turgaydede.service;
 
-import com.turgaydede.dto.TokenRecordRequest;
-import com.turgaydede.dto.TokenResponse;
 import com.turgaydede.dto.UserRegistrationRequest;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.UserRepresentation;

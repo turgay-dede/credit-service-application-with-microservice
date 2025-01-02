@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreditDto {
-    private String id;
+    private Long id;
     private String identityNumber;
     private CreditConsent creditConsent;
     private int creditLimit;

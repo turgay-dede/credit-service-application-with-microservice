@@ -1,8 +1,7 @@
 package com.turgaydede.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
@@ -11,10 +10,13 @@ import java.io.Serializable;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Document
+@Entity
+@Table(name = "creditScore")
 public class CreditScore  implements Serializable {
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String identityNumber;
     private int creditScore;
 }

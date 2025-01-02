@@ -1,7 +1,7 @@
 package com.turgaydede.repositories;
 
 import com.turgaydede.entity.CreditScore;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CreditScoreRepository extends MongoRepository<CreditScore,String> {
+public interface CreditScoreRepository extends JpaRepository<CreditScore,Long> {
 }

@@ -1,23 +1,28 @@
 package com.turgaydede.entity;
 
 import com.turgaydede.entity.dto.CustomerDto;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
-
-@Data
-@Builder
-@ToString
-@Document
+@Entity
+@Table(name = "credits")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@Builder
+@ToString
 public class Credit implements Serializable {
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String identityNumber;
+
+    @Enumerated(EnumType.STRING)
     private CreditConsent creditConsent;
     private int creditLimit;
 

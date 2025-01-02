@@ -1,11 +1,11 @@
 package com.turgaydede.repositories;
 
 import com.turgaydede.entity.Credit;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface CreditRepository extends MongoRepository<Credit,String> {
+public interface CreditRepository extends JpaRepository<Credit,Long> {
     Optional<Credit> findCreditByIdentityNumber(String identityNumber);
 }

@@ -143,8 +143,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
       MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: credits
     volumes:
       - credit-mongo-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - credit-and-mongo-network
     restart: unless-stopped

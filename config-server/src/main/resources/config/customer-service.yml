@@ -21,6 +21,26 @@ spring:
         jwt:
           issuer-uri: http://${KEYCLOAK_HOST:localhost}:${KEYCLOAK_PORT:9090}/realms/${keycloak.realm}
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${SERVICE_REGISTRY_HOST:localhost}:${SERVICE_REGISTRY_PORT:8761}/eureka
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 keycloak:
   realm: credit-service-application-realm

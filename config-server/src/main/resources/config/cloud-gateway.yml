@@ -32,7 +32,9 @@ spring:
 
 eureka:
   instance:
-    hostname: ${API_GATEWAY_HOST:localhost}
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}
   client:
     fetch-registry: true
     register-with-eureka: true
